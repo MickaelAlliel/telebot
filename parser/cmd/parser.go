@@ -4,52 +4,25 @@ import (
 	"fmt"
 	"log"
 	"net/http"
-	"net/url"
-	"os"
 	"path"
 
 	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api/v5"
-	"github.com/joho/godotenv"
+	"mickaelalliel.com/telebot/parser/internal/config"
 )
 
 func main() {
-	err := godotenv.Overload("../.env")
+	config.ParseConfigurationFromFile("../.env")
+
+	bot, err := tgbotapi.NewBotAPI(config.AppConfig.BotToken)
 	if err != nil {
-		log.Println(err)
-		log.Fatal("Error loading .env file")
-	}
-
-	serverPort, exists := os.LookupEnv("PORT")
-	if !exists {
-		log.Println("Using default port :3000")
-		serverPort = "3000"
-	}
-
-	tgBotToken, exists := os.LookupEnv("TG_BOT_TOKEN")
-	if !exists || tgBotToken == "" {
-		log.Fatal("Missing TG_BOT_TOKEN environment variable")
-	}
-
-	tgWebhookUrl, exists := os.LookupEnv("TG_WEBHOOK_URL")
-	if !exists || tgBotToken == "" {
-		log.Fatal("Missing TG_WEBHOOK_URL environment variable")
-	}
-
-	bot, err := tgbotapi.NewBotAPI(tgBotToken)
-	if err != nil {
-		log.Fatal(err)
+		log.Fatal(err.Error())
 	}
 
 	bot.Debug = true
 
 	log.Printf("Starting up bot: %s", bot.Self.UserName)
 
-	whUrl, err := url.Parse(tgWebhookUrl)
-	if err != nil {
-		log.Fatal("Failed to parse webhook url")
-	}
-	whUrl.Path = path.Join(whUrl.Path, bot.Token)
-	wh, _ := tgbotapi.NewWebhook(whUrl.String())
+	wh, _ := tgbotapi.NewWebhook(path.Join(config.AppConfig.WebhookUrl.Path, config.AppConfig.BotToken))
 
 	_, err = bot.Request(wh)
 	if err != nil {
@@ -66,7 +39,7 @@ func main() {
 	}
 
 	updates := bot.ListenForWebhook("/" + bot.Token)
-	go http.ListenAndServe(fmt.Sprintf("0.0.0.0:%s", serverPort), nil)
+	go http.ListenAndServe(fmt.Sprintf("0.0.0.0:%d", config.AppConfig.ServerPort), nil)
 
 	for update := range updates {
 		log.Printf("%+v\n", update.Message.Text)
