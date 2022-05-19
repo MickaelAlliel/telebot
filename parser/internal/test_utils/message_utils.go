@@ -1,0 +1,71 @@
+package test_utils
+
+import (
+	"time"
+
+	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api/v5"
+)
+
+func NewTestTelegramMessage(text string) *tgbotapi.Message {
+	unixDate := time.Now().Unix()
+	return &tgbotapi.Message{
+		MessageID:                     0,
+		From:                          &tgbotapi.User{UserName: "test_username"},
+		SenderChat:                    &tgbotapi.Chat{},
+		Date:                          int(unixDate),
+		Chat:                          &tgbotapi.Chat{},
+		ForwardFrom:                   &tgbotapi.User{},
+		ForwardFromChat:               &tgbotapi.Chat{},
+		ForwardFromMessageID:          0,
+		ForwardSignature:              "",
+		ForwardSenderName:             "",
+		ForwardDate:                   0,
+		IsAutomaticForward:            false,
+		ReplyToMessage:                &tgbotapi.Message{},
+		ViaBot:                        &tgbotapi.User{},
+		EditDate:                      0,
+		HasProtectedContent:           false,
+		MediaGroupID:                  "",
+		AuthorSignature:               "",
+		Text:                          text,
+		Entities:                      []tgbotapi.MessageEntity{},
+		Animation:                     &tgbotapi.Animation{},
+		Audio:                         &tgbotapi.Audio{},
+		Document:                      &tgbotapi.Document{},
+		Photo:                         []tgbotapi.PhotoSize{},
+		Sticker:                       &tgbotapi.Sticker{},
+		Video:                         &tgbotapi.Video{},
+		VideoNote:                     &tgbotapi.VideoNote{},
+		Voice:                         &tgbotapi.Voice{},
+		Caption:                       "",
+		CaptionEntities:               []tgbotapi.MessageEntity{},
+		Contact:                       &tgbotapi.Contact{},
+		Dice:                          &tgbotapi.Dice{},
+		Game:                          &tgbotapi.Game{},
+		Poll:                          &tgbotapi.Poll{},
+		Venue:                         &tgbotapi.Venue{},
+		Location:                      &tgbotapi.Location{},
+		NewChatMembers:                []tgbotapi.User{},
+		LeftChatMember:                &tgbotapi.User{},
+		NewChatTitle:                  "",
+		NewChatPhoto:                  []tgbotapi.PhotoSize{},
+		DeleteChatPhoto:               false,
+		GroupChatCreated:              false,
+		SuperGroupChatCreated:         false,
+		ChannelChatCreated:            false,
+		MessageAutoDeleteTimerChanged: &tgbotapi.MessageAutoDeleteTimerChanged{},
+		MigrateToChatID:               0,
+		MigrateFromChatID:             0,
+		PinnedMessage:                 &tgbotapi.Message{},
+		Invoice:                       &tgbotapi.Invoice{},
+		SuccessfulPayment:             &tgbotapi.SuccessfulPayment{},
+		ConnectedWebsite:              "",
+		PassportData:                  &tgbotapi.PassportData{},
+		ProximityAlertTriggered:       &tgbotapi.ProximityAlertTriggered{},
+		VoiceChatScheduled:            &tgbotapi.VoiceChatScheduled{},
+		VoiceChatStarted:              &tgbotapi.VoiceChatStarted{},
+		VoiceChatEnded:                &tgbotapi.VoiceChatEnded{},
+		VoiceChatParticipantsInvited:  &tgbotapi.VoiceChatParticipantsInvited{},
+		ReplyMarkup:                   &tgbotapi.InlineKeyboardMarkup{},
+	}
+}
