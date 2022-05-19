@@ -42,6 +42,7 @@ cash
 ```
 
 Required data:  
+**ON SEPARATE LINES! In any order**
 * Amount (float64)
 * Category
 * Payment Method
