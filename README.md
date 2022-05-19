@@ -26,7 +26,22 @@
 
 ## Required Configurations
 
-### `.env.`
+### `.env`
 * `PORT` - Webhook server port [Default: `3000`]
 * `TG_BOT_TOKEN` - Telegram bot token
 * `TG_WEBHOOK_URL` - Telegram bot webhook server url (this application)
+
+## Parsing Messages
+### Expenses
+
+Example message:  
+```
+200
+shopping
+cash
+```
+
+Required data:  
+* Amount (float64)
+* Category
+* Payment Method
