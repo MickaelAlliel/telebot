@@ -26,12 +26,12 @@ func main() {
 	}
 
 	tgBotToken, exists := os.LookupEnv("TG_BOT_TOKEN")
-	if !exists {
+	if !exists || tgBotToken == "" {
 		log.Fatal("Missing TG_BOT_TOKEN environment variable")
 	}
 
 	tgWebhookUrl, exists := os.LookupEnv("TG_WEBHOOK_URL")
-	if !exists {
+	if !exists || tgBotToken == "" {
 		log.Fatal("Missing TG_WEBHOOK_URL environment variable")
 	}
 
