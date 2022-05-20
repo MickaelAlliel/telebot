@@ -25,11 +25,17 @@ func replyToMessage(bot *tgbotapi.BotAPI, upd *tgbotapi.Update, message string) 
 }
 
 func HandleTelegramUpdate(ctx context.Context, upd *tgbotapi.Update) {
-	// defer func() {
-	// 	if err := recover(); err != nil {
-	// 		log.Println("panic occurred:", err)
-	// 	}
-	// }()
+	defer func() {
+		if err := recover(); err != nil {
+			log.Println("panic occurred:", err)
+			bot, ok := ctx.Value(config.ContextKeyBot).(*tgbotapi.BotAPI)
+			if !ok {
+				log.Println("failed to get bot api client from context")
+				return
+			}
+			replyToMessage(bot, upd, "fatal error! check logs.")
+		}
+	}()
 
 	bot, ok := ctx.Value(config.ContextKeyBot).(*tgbotapi.BotAPI)
 	if !ok {
