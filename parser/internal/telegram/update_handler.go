@@ -13,8 +13,19 @@ import (
 )
 
 func HandleTelegramUpdates(ctx context.Context, updateChannel tgbotapi.UpdatesChannel) {
+	bot, ok := ctx.Value(config.ContextKeyBot).(*tgbotapi.BotAPI)
+	if !ok {
+		log.Fatal("failed to get bot api client from context")
+		return
+	}
+	db, ok := ctx.Value(config.ContextKeyDbClient).(*ent.Client)
+	if !ok {
+		log.Fatal("failed to get db client from context")
+		return
+	}
+
 	for update := range updateChannel {
-		go HandleTelegramUpdate(ctx, &update)
+		go HandleTelegramUpdate(ctx, bot, db, &update)
 	}
 }
 
@@ -24,34 +35,24 @@ func replyToMessage(bot *tgbotapi.BotAPI, upd *tgbotapi.Update, message string) 
 	return msg, error
 }
 
-func HandleTelegramUpdate(ctx context.Context, upd *tgbotapi.Update) {
+func HandleTelegramUpdate(ctx context.Context, bot *tgbotapi.BotAPI, db *ent.Client, upd *tgbotapi.Update) {
 	defer func() {
 		if err := recover(); err != nil {
 			log.Println("panic occurred:", err)
-			bot, ok := ctx.Value(config.ContextKeyBot).(*tgbotapi.BotAPI)
-			if !ok {
-				log.Println("failed to get bot api client from context")
-				return
-			}
 			replyToMessage(bot, upd, "fatal error! check logs.")
 		}
 	}()
 
-	bot, ok := ctx.Value(config.ContextKeyBot).(*tgbotapi.BotAPI)
-	if !ok {
-		log.Println("failed to get bot api client from context")
-		return
-	}
-	db, ok := ctx.Value(config.ContextKeyDbClient).(*ent.Client)
-	if !ok {
-		log.Println("failed to get db client from context")
-		return
-	}
 	if upd.FromChat().IsPrivate() {
 		if !slices.Contains(config.AppConfig.AllowedPrivateUsers, upd.Message.From.UserName) {
 			replyToMessage(bot, upd, config.ErrorMessage_UnauthorizedUser)
 			return
 		}
+	}
+
+	if upd.Message.Command() == "start" {
+		replyToMessage(bot, upd, config.StartMessage)
+		return
 	}
 
 	expense, err := parsers.ParseExpenseMessage(upd.Message)
