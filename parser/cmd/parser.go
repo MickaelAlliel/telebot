@@ -8,10 +8,13 @@ import (
 
 	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api/v5"
 	"mickaelalliel.com/telebot/parser/internal/config"
+	"mickaelalliel.com/telebot/parser/internal/db"
 )
 
 func main() {
 	config.ParseConfigurationFromFile("../.env")
+	client := db.NewDatabaseOrFail()
+	defer client.Close()
 
 	bot, err := tgbotapi.NewBotAPI(config.AppConfig.BotToken)
 	if err != nil {
