@@ -1,0 +1,15 @@
+overwrite: true
+schema: 'http://localhost:5000/graphql'
+documents: 'src/**/*.graphql'
+generates:
+  src/generated/graphql.ts:
+    plugins:
+      - 'typescript'
+      - 'typescript-operations'
+      - 'typescript-react-query'
+    config:
+      fetcher:
+        endpoint: 'import.meta.env.GRAPHQL_ENDPOINT'
+  ./graphql.schema.json:
+    plugins:
+      - 'introspection'

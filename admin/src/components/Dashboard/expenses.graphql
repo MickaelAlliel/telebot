@@ -1,0 +1,20 @@
+query Expenses {
+  allExpenses {
+    nodes {
+      id
+      amount
+      category
+      method
+      ownerName
+      timestamp
+      nodeId
+    }
+    pageInfo {
+      endCursor
+      hasNextPage
+      hasPreviousPage
+      startCursor
+    }
+    totalCount
+  }
+}
