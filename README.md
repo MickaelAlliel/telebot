@@ -24,12 +24,23 @@
 4. Enter `Disable`
 
 
-## Required Configurations
+## Configuration
 
-### `.env`
-* `PORT` - Webhook server port [Default: `3000`]
-* `TG_BOT_TOKEN` - Telegram bot token
-* `TG_WEBHOOK_URL` - Telegram bot webhook server url (this application)
+**All configuration must be set as environment variables**  
+In development (default), it will look for a `.env` file next to the binary/entrypoint `./cmd/parser.go`.
+
+| **Configuration Key** | **Type**   | **Default**        | **Description**                                                                                                     |
+|-----------------------|------------|--------------------|---------------------------------------------------------------------------------------------------------------------|
+| ENV                   | `string`   | `development`      |                                                                                                                     |
+| PORT                  | `int`      | `3000`             | Webhook Server port to listen on                                                                                    |
+| TG_BOT_TOKEN          | `string`   |                    | (REQUIRED) Telegram Bot Token                                                                                       |
+| TG_WEBHOOK_URL        | `string`   |                    | (REQUIRED) Webhook server URL for your bot to send updates to                                                       |
+| ALLOWED_PRIVATE_USERS | `[]string` | `[]`               | List of users (comma-separated) to allow handling messages from private chat with bot. <br>Example: `user_a,user_b` |
+| DB_HOST               | `string`   | `localhost`        |                                                                                                                     |
+| DB_PORT               | `int`      | `5432`             |                                                                                                                     |
+| DB_USERNAME           | `string`   | `postgres`         |                                                                                                                     |
+| DB_PASSWORD           | `string`   | `postgrespassword` |                                                                                                                     |
+| DB_DATABASE           | `string`   | `postgres`         |                                                                                                                     |
 
 ## Parsing Messages
 ### Expenses

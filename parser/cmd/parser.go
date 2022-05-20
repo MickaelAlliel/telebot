@@ -9,7 +9,7 @@ import (
 )
 
 func main() {
-	config.ParseConfigurationFromFile("../.env")
+	config.ParseConfiguration()
 	dbClient := db.NewDatabaseOrFail()
 	defer dbClient.Close()
 
