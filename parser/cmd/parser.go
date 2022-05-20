@@ -21,10 +21,11 @@ func main() {
 		log.Fatal(err.Error())
 	}
 
-	bot.Debug = true
+	if config.AppConfig.Env == "development" {
+		bot.Debug = true
+	}
 
 	log.Printf("Starting up bot: %s", bot.Self.UserName)
-
 	wh, _ := tgbotapi.NewWebhook(path.Join(config.AppConfig.WebhookUrl.Path, config.AppConfig.BotToken))
 
 	_, err = bot.Request(wh)
