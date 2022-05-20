@@ -18,7 +18,6 @@ type ApplicationConfiguration struct {
 }
 
 type DatabaseConfiguration struct {
-	Driver   string `default:"postgres" envconfig:"db_driver"`
 	Host     string `default:"localhost" envconfig:"db_host"`
 	Port     int    `default:"5432" envconfig:"db_port"`
 	Username string `default:"postgres" envconfig:"db_username"`
