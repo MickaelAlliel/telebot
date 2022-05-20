@@ -1,7 +1,7 @@
 package main
 
 import (
-	"log"
+	"context"
 
 	"mickaelalliel.com/telebot/parser/internal/config"
 	"mickaelalliel.com/telebot/parser/internal/db"
@@ -10,11 +10,11 @@ import (
 
 func main() {
 	config.ParseConfigurationFromFile("../.env")
-	client := db.NewDatabaseOrFail()
-	defer client.Close()
+	dbClient := db.NewDatabaseOrFail()
+	defer dbClient.Close()
 
-	updates := telegram.NewTelegramWebhookServerOrFail()
-	for update := range updates {
-		log.Printf("%+v\n", update.Message.Text)
-	}
+	updates, bot := telegram.NewTelegramWebhookServerOrFail()
+	ctx := context.WithValue(context.Background(), config.ContextKeyBot, bot)
+	ctx = context.WithValue(ctx, config.ContextKeyDbClient, dbClient)
+	telegram.HandleTelegramUpdates(ctx, updates)
 }

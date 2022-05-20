@@ -11,7 +11,7 @@ import (
 	"mickaelalliel.com/telebot/parser/internal/config"
 )
 
-func NewTelegramWebhookServerOrFail() tgbotapi.UpdatesChannel {
+func NewTelegramWebhookServerOrFail() (tgbotapi.UpdatesChannel, *tgbotapi.BotAPI) {
 	bot, err := tgbotapi.NewBotAPI(config.AppConfig.BotToken)
 	if err != nil {
 		log.Fatal(err.Error())
@@ -43,5 +43,5 @@ func NewTelegramWebhookServerOrFail() tgbotapi.UpdatesChannel {
 	updates := bot.ListenForWebhook("/" + bot.Token)
 	go http.ListenAndServe(fmt.Sprintf("0.0.0.0:%d", config.AppConfig.ServerPort), nil)
 
-	return updates
+	return updates, bot
 }

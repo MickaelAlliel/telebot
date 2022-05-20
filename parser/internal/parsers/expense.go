@@ -1,12 +1,14 @@
 package parsers
 
 import (
+	"context"
 	"fmt"
 	"strconv"
 	"strings"
 	"time"
 
 	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api/v5"
+	"mickaelalliel.com/telebot/parser/ent"
 	"mickaelalliel.com/telebot/parser/internal/utils"
 )
 
@@ -23,6 +25,20 @@ func (exp *Expense) isValid() bool {
 		return false
 	}
 	return true
+}
+
+func (exp *Expense) SaveEnt(ctx context.Context, db *ent.Client) (*ent.Expense, error) {
+	e, err := db.Expense.Create().
+		SetAmount(exp.Amount).
+		SetCategory(exp.Category).
+		SetMethod(exp.Method).
+		SetOwnerName(exp.OwnerName).
+		SetTimestamp(*exp.Timestamp).
+		Save(ctx)
+	if err != nil {
+		return nil, fmt.Errorf("failed creating user: %w", err)
+	}
+	return e, nil
 }
 
 func isValidMethod(text string) bool {

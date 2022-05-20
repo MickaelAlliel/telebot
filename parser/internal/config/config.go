@@ -11,10 +11,11 @@ import (
 )
 
 type ApplicationConfiguration struct {
-	Env        string              `default:"development" envconfig:"env"`
-	ServerPort int                 `default:"3000" envconfig:"port"`
-	BotToken   string              `required:"true" envconfig:"tg_bot_token"`
-	WebhookUrl decoders.URLDecoder `required:"true" envconfig:"tg_webhook_url"`
+	Env                 string              `default:"development" envconfig:"env"`
+	ServerPort          int                 `default:"3000" envconfig:"port"`
+	BotToken            string              `required:"true" envconfig:"tg_bot_token"`
+	WebhookUrl          decoders.URLDecoder `required:"true" envconfig:"tg_webhook_url"`
+	AllowedPrivateUsers []string            `default:"[]" envconfig:"allowed_private_users"`
 }
 
 type DatabaseConfiguration struct {
