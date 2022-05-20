@@ -9,44 +9,50 @@ import (
 )
 
 type expenseTestCase struct {
-	Amount   float64
-	Category string
-	Method   string
+	Amount                float64
+	Category              string
+	Method                string
+	ExpectedPaymentMethod string
 }
 
 func assertExpense(t *testing.T, exp *Expense, err error, testCase expenseTestCase) {
 	assert.Nil(t, err)
 	assert.Equal(t, testCase.Amount, exp.Amount)
 	assert.Equal(t, testCase.Category, exp.Category)
-	assert.Equal(t, testCase.Method, exp.Method)
+	assert.Equal(t, testCase.ExpectedPaymentMethod, exp.Method)
 	assert.Equal(t, "test_username", exp.OwnerName)
 }
 
 var validTestCases = []expenseTestCase{
 	{
-		Amount:   32.5,
-		Category: "food",
-		Method:   "cash",
+		Amount:                32.5,
+		Category:              "food",
+		Method:                "cash",
+		ExpectedPaymentMethod: "cash",
 	},
 	{
-		Amount:   100,
-		Category: "כלבו",
-		Method:   "אשראי",
+		Amount:                100,
+		Category:              "כלבו",
+		Method:                "אשראי",
+		ExpectedPaymentMethod: "card",
 	},
 	{
-		Amount:   450,
-		Category: "car battery",
-		Method:   "ביט",
+		Amount:                450,
+		Category:              "car battery",
+		Method:                "ביט",
+		ExpectedPaymentMethod: "bit",
 	},
 	{
-		Amount:   200.30,
-		Category: "car battery",
-		Method:   "ביט",
+		Amount:                200.30,
+		Category:              "car battery",
+		Method:                "ביט",
+		ExpectedPaymentMethod: "bit",
 	},
 	{
-		Amount:   200.30,
-		Category: "אוכל",
-		Method:   "ביט",
+		Amount:                200.30,
+		Category:              "אוכל",
+		Method:                "ביט",
+		ExpectedPaymentMethod: "bit",
 	},
 }
 
