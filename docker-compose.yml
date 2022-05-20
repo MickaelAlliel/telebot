@@ -8,6 +8,8 @@ x-defaults:
   db-database: &db-database postgres
   gf-admin-username: &gf-admin-username admin
   gf-admin-password: &gf-admin-password admin
+  pga-default-email: &pga-default-email admin@localhost.com
+  pga-default-password: &pga-default-password admin
 
 
 services:
@@ -18,11 +20,22 @@ services:
       context: ./parser
       dockerfile: Dockerfile
     environment:
-      ENV: development
+      ENV: docker
+      TG_BOT_TOKEN: ""
+      TG_WEBHOOK_URL: ""
+      DB_DRIVER: "postgres"
+      DB_HOST: *db-host
+      DB_PORT: *db-port
+      DB_USERNAME: *db-username
+      DB_PASSWORD: *db-password
+      DB_DATABASE: *db-database
     ports:
       - 3000:3000
     networks:
       - telebot
+    profiles:
+      - all
+      - parser
 
 
   postgresql:
@@ -34,11 +47,33 @@ services:
       POSTGRES_PASSWORD: *db-password
       POSTGRES_DB: *db-database
     volumes:
-      - db_data:/var/lib/postgresql/data
+      - pg_data:/var/lib/postgresql/data
     ports:
       - 5432:5432
     networks:
       - telebot
+    profiles:
+      - all
+      - db
+
+  pgadmin:
+    depends_on:
+      - postgresql
+    image: dpage/pgadmin4:6.9
+    pull_policy: if_not_present
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: *pga-default-email
+      PGADMIN_DEFAULT_PASSWORD: *pga-default-password
+    volumes:
+      - pga_data:/var/lib/pgadmin
+    ports:
+      - 5433:80
+    networks:
+      - telebot
+    profiles:
+      - all
+      - db
 
   grafana:
     image: grafana/grafana-oss:8.5.3
@@ -54,9 +89,14 @@ services:
       - 3001:3000
     networks:
       - telebot
+    profiles:
+      - all
+      - grafana
 
 volumes:
-  db_data:
+  pg_data:
+    driver: local
+  pga_data:
     driver: local
   grafana_data:
     driver: local
