@@ -2,6 +2,7 @@ package config
 
 import (
 	"log"
+	"os"
 	"sync"
 
 	"github.com/joho/godotenv"
@@ -10,6 +11,7 @@ import (
 )
 
 type Config struct {
+	Env        string              `default:"development" envconfig:"env"`
 	ServerPort int                 `default:"3000" envconfig:"port"`
 	BotToken   string              `required:"true" envconfig:"tg_bot_token"`
 	WebhookUrl decoders.URLDecoder `required:"true" envconfig:"tg_webhook_url"`
@@ -24,12 +26,16 @@ func ParseConfiguration() {
 
 func ParseConfigurationFromFile(envFilePath string) {
 	initConfigOnce.Do(func() {
-		err := godotenv.Overload(envFilePath)
-		if err != nil {
-			log.Fatalf("Error reading .env file from path: %s - Error: %s", envFilePath, err.Error())
+		env := os.Getenv("ENV")
+		if env == "development" {
+			log.Println("Detected development env. Trying to read .env file")
+			err := godotenv.Overload(envFilePath)
+			if err != nil {
+				log.Fatalf("Error reading .env file from path: %s - Error: %s", envFilePath, err.Error())
+			}
 		}
 
-		err = envconfig.Process("", &AppConfig)
+		err := envconfig.Process("", &AppConfig)
 		if err != nil {
 			log.Fatalf("Error unmashaling configuration: %s", err.Error())
 		}

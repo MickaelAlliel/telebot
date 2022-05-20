@@ -1,0 +1,64 @@
+version: "3.7"
+
+x-defaults:
+  db-host: &db-host postgresql
+  db-port: &db-port 5432
+  db-username: &db-username postgres
+  db-password: &db-password postgrespassword
+  db-database: &db-database postgres
+  gf-admin-username: &gf-admin-username admin
+  gf-admin-password: &gf-admin-password admin
+
+
+services:
+  parser:
+    image: parser:development
+    restart: always
+    build:
+      context: ./parser
+      dockerfile: Dockerfile
+    environment:
+      ENV: development
+    ports:
+      - 3000:3000
+    networks:
+      - telebot
+
+
+  postgresql:
+    image: postgres:14.3
+    pull_policy: if_not_present
+    restart: always
+    environment:
+      POSTGRES_USER: *db-username
+      POSTGRES_PASSWORD: *db-password
+      POSTGRES_DB: *db-database
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+    networks:
+      - telebot
+
+  grafana:
+    image: grafana/grafana-oss:8.5.3
+    pull_policy: if_not_present
+    restart: always
+    environment:
+      GF_SECURITY_ADMIN_USER: *gf-admin-username
+      GF_SECURITY_ADMIN_PASSWORD: *gf-admin-password
+      GF_USERS_ALLOW_SIGNUP: "false"
+    volumes:
+      - grafana_data:/var/lib/grafana
+    ports:
+      - 3001:3000
+    networks:
+      - telebot
+
+volumes:
+  db_data:
+    driver: local
+  grafana_data:
+    driver: local
+networks:
+  telebot:
