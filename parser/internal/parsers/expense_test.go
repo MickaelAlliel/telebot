@@ -38,6 +38,16 @@ var validTestCases = []expenseTestCase{
 		Category: "car battery",
 		Method:   "ביט",
 	},
+	{
+		Amount:   200.30,
+		Category: "car battery",
+		Method:   "ביט",
+	},
+	{
+		Amount:   200.30,
+		Category: "אוכל",
+		Method:   "ביט",
+	},
 }
 
 func TestParseExpenseValid(t *testing.T) {
