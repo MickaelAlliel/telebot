@@ -19,12 +19,12 @@ type ApplicationConfiguration struct {
 }
 
 type DatabaseConfiguration struct {
-	Host     string `default:"localhost" envconfig:"db_host"`
-	Port     int    `default:"5432" envconfig:"db_port"`
-	Username string `default:"postgres" envconfig:"db_username"`
-	Password string `default:"postgrespassword" envconfig:"db_password"`
-	Database string `default:"postgres" envconfig:"db_database"`
-	TCP      bool   `default:"false" envconfig:"DB_TCP"`
+	Host       string `default:"localhost" envconfig:"db_host"`
+	Port       int    `default:"5432" envconfig:"db_port"`
+	Username   string `default:"postgres" envconfig:"db_username"`
+	Password   string `default:"postgrespassword" envconfig:"db_password"`
+	Database   string `default:"postgres" envconfig:"db_database"`
+	UnixSocket string `default:"" envconfig:"DB_UNIX_SOCKET"`
 }
 
 var initConfigOnce sync.Once

@@ -19,12 +19,13 @@ func NewDatabaseOrFail() *ent.Client {
 		config.DbConfig.Host,
 		config.DbConfig.Port,
 		config.DbConfig.Database)
-	if config.DbConfig.TCP {
-		dsn = fmt.Sprintf("postgres://%s:%s@tcp(%s:%d)/%s",
+	if config.DbConfig.UnixSocket != "" {
+		log.Printf("using unix socket to connect to db")
+		dsn = fmt.Sprintf("postgres:///?host=%s/%s&user=%s&password=%s&database=%s",
+			config.DbConfig.UnixSocket,
+			config.DbConfig.Host,
 			config.DbConfig.Username,
 			config.DbConfig.Password,
-			config.DbConfig.Host,
-			config.DbConfig.Port,
 			config.DbConfig.Database)
 	}
 
