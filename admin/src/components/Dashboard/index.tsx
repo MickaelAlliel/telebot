@@ -37,7 +37,7 @@ const Dashboard = () => {
     setChartData(groupedExpenses(filteredData));
   }, [filteredData]);
 
-  if (error) return <div>{error as string}</div>;
+  if (error) return <div>Error...</div>;
   if (isFetching) return <Loading />;
 
   return (

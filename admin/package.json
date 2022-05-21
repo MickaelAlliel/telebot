@@ -6,6 +6,7 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview",
+    "lint:ci": "prettier --check **/*.{ts,tsx,js,json,html,yml,yaml,css} && eslint ",
     "lint": "prettier --write **/*.{ts,tsx,js,json,html,yml,yaml,css} && eslint --fix",
     "generate": "graphql-codegen --config graphql.codegen.yml"
   },

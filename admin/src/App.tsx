@@ -10,7 +10,7 @@ export const App = () => {
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns}>
       <QueryClientProvider client={queryClient}>
-        <Dashboard></Dashboard>
+        <Dashboard />
         <ReactQueryDevtools initialIsOpen={false} />
       </QueryClientProvider>
     </LocalizationProvider>
