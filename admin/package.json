@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build",
+    "build": "tsc && vite build --mode production",
     "preview": "vite preview",
     "lint:ci": "prettier --check **/*.{ts,tsx,js,json,html,yml,yaml,css} && eslint ",
     "lint": "prettier --write **/*.{ts,tsx,js,json,html,yml,yaml,css} && eslint --fix",
