@@ -13,17 +13,20 @@ import (
 )
 
 func NewDatabaseOrFail() *ent.Client {
-	tcpOpt := ""
-	if config.DbConfig.TCP {
-		tcpOpt = "tcp"
-	}
-	dsn := fmt.Sprintf("postgres://%s:%s@%s%s:%d/%s",
+	dsn := fmt.Sprintf("postgres://%s:%s@%s:%d/%s",
 		config.DbConfig.Username,
 		config.DbConfig.Password,
-		tcpOpt,
 		config.DbConfig.Host,
 		config.DbConfig.Port,
 		config.DbConfig.Database)
+	if config.DbConfig.TCP {
+		dsn = fmt.Sprintf("postgres://%s:%s@tcp(%s:%d)/%s",
+			config.DbConfig.Username,
+			config.DbConfig.Password,
+			config.DbConfig.Host,
+			config.DbConfig.Port,
+			config.DbConfig.Database)
+	}
 
 	log.Printf("opening connection to postgres db: %s:%d/%s", config.DbConfig.Host, config.DbConfig.Port, config.DbConfig.Database)
 	db, err := sql.Open("pgx", dsn)
