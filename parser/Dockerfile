@@ -10,6 +10,7 @@ RUN go mod download
 
 COPY test.sh .
 COPY build.sh .
+RUN chmod +x test.sh && chmod +x build.sh
 COPY cmd/ cmd/
 COPY internal/ internal/
 
