@@ -1,15 +1,21 @@
 import { useQuery, UseQueryOptions } from 'react-query';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
-export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
-export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
-export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
+export type Exact<T extends { [key: string]: unknown }> = {
+  [K in keyof T]: T[K];
+};
+export type MakeOptional<T, K extends keyof T> = Omit<T, K> & {
+  [SubKey in K]?: Maybe<T[SubKey]>;
+};
+export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & {
+  [SubKey in K]: Maybe<T[SubKey]>;
+};
 
 function fetcher<TData, TVariables>(query: string, variables?: TVariables) {
   return async (): Promise<TData> => {
     const res = await fetch(import.meta.env.VITE_GRAPHQL_ENDPOINT as string, {
-    method: "POST",
-    ...({"headers":{"Content-Type":"application/json"}}),
+      method: 'POST',
+      ...{ headers: { 'Content-Type': 'application/json' } },
       body: JSON.stringify({ query, variables }),
     });
 
@@ -22,7 +28,7 @@ function fetcher<TData, TVariables>(query: string, variables?: TVariables) {
     }
 
     return json.data;
-  }
+  };
 }
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
@@ -99,7 +105,6 @@ export type CreateExpensePayload = {
   query?: Maybe<Query>;
 };
 
-
 /** The output of our create `Expense` mutation. */
 export type CreateExpensePayloadExpenseEdgeArgs = {
   orderBy?: InputMaybe<Array<ExpensesOrderBy>>;
@@ -168,7 +173,6 @@ export type DeleteExpensePayload = {
   /** Our root query field type. Allows us to run any query from our mutation payload. */
   query?: Maybe<Query>;
 };
-
 
 /** The output of our delete `Expense` mutation. */
 export type DeleteExpensePayloadExpenseEdgeArgs = {
@@ -292,7 +296,7 @@ export enum ExpensesOrderBy {
   PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
   PrimaryKeyDesc = 'PRIMARY_KEY_DESC',
   TimestampAsc = 'TIMESTAMP_ASC',
-  TimestampDesc = 'TIMESTAMP_DESC'
+  TimestampDesc = 'TIMESTAMP_DESC',
 }
 
 /** A filter to be used against Float fields. All fields are combined with a logical ‘and.’ */
@@ -336,30 +340,25 @@ export type Mutation = {
   updateExpenseById?: Maybe<UpdateExpensePayload>;
 };
 
-
 /** The root mutation type which contains root level fields which mutate data. */
 export type MutationCreateExpenseArgs = {
   input: CreateExpenseInput;
 };
-
 
 /** The root mutation type which contains root level fields which mutate data. */
 export type MutationDeleteExpenseArgs = {
   input: DeleteExpenseInput;
 };
 
-
 /** The root mutation type which contains root level fields which mutate data. */
 export type MutationDeleteExpenseByIdArgs = {
   input: DeleteExpenseByIdInput;
 };
 
-
 /** The root mutation type which contains root level fields which mutate data. */
 export type MutationUpdateExpenseArgs = {
   input: UpdateExpenseInput;
 };
-
 
 /** The root mutation type which contains root level fields which mutate data. */
 export type MutationUpdateExpenseByIdArgs = {
@@ -404,7 +403,6 @@ export type Query = Node & {
   query: Query;
 };
 
-
 /** The root query type which gives access points into the data universe. */
 export type QueryAllExpensesArgs = {
   after?: InputMaybe<Scalars['Cursor']>;
@@ -417,18 +415,15 @@ export type QueryAllExpensesArgs = {
   orderBy?: InputMaybe<Array<ExpensesOrderBy>>;
 };
 
-
 /** The root query type which gives access points into the data universe. */
 export type QueryExpenseArgs = {
   nodeId: Scalars['ID'];
 };
 
-
 /** The root query type which gives access points into the data universe. */
 export type QueryExpenseByIdArgs = {
   id: Scalars['BigInt'];
 };
-
 
 /** The root query type which gives access points into the data universe. */
 export type QueryNodeArgs = {
@@ -554,21 +549,46 @@ export type UpdateExpensePayload = {
   query?: Maybe<Query>;
 };
 
-
 /** The output of our update `Expense` mutation. */
 export type UpdateExpensePayloadExpenseEdgeArgs = {
   orderBy?: InputMaybe<Array<ExpensesOrderBy>>;
 };
 
-export type ExpensesQueryVariables = Exact<{ [key: string]: never; }>;
+export type ExpensesQueryVariables = Exact<{
+  from?: InputMaybe<Scalars['Datetime']>;
+  to?: InputMaybe<Scalars['Datetime']>;
+}>;
 
-
-export type ExpensesQuery = { __typename?: 'Query', allExpenses?: { __typename?: 'ExpensesConnection', totalCount: number, nodes: Array<{ __typename?: 'Expense', id: any, amount: number, category: string, method: string, ownerName: string, timestamp: string, nodeId: string }>, pageInfo: { __typename?: 'PageInfo', endCursor?: any | null, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: any | null } } | null };
-
+export type ExpensesQuery = {
+  __typename?: 'Query';
+  allExpenses?: {
+    __typename?: 'ExpensesConnection';
+    totalCount: number;
+    nodes: Array<{
+      __typename?: 'Expense';
+      id: any;
+      amount: number;
+      category: string;
+      method: string;
+      ownerName: string;
+      timestamp: string;
+      nodeId: string;
+    }>;
+    pageInfo: {
+      __typename?: 'PageInfo';
+      endCursor?: any | null;
+      hasNextPage: boolean;
+      hasPreviousPage: boolean;
+      startCursor?: any | null;
+    };
+  } | null;
+};
 
 export const ExpensesDocument = `
-    query Expenses {
-  allExpenses {
+    query Expenses($from: Datetime = "now()", $to: Datetime = "now()") {
+  allExpenses(
+    filter: {timestamp: {greaterThanOrEqualTo: $from, lessThanOrEqualTo: $to}}
+  ) {
     nodes {
       id
       amount
@@ -588,15 +608,12 @@ export const ExpensesDocument = `
   }
 }
     `;
-export const useExpensesQuery = <
-      TData = ExpensesQuery,
-      TError = unknown
-    >(
-      variables?: ExpensesQueryVariables,
-      options?: UseQueryOptions<ExpensesQuery, TError, TData>
-    ) =>
-    useQuery<ExpensesQuery, TError, TData>(
-      variables === undefined ? ['Expenses'] : ['Expenses', variables],
-      fetcher<ExpensesQuery, ExpensesQueryVariables>(ExpensesDocument, variables),
-      options
-    );
+export const useExpensesQuery = <TData = ExpensesQuery, TError = unknown>(
+  variables?: ExpensesQueryVariables,
+  options?: UseQueryOptions<ExpensesQuery, TError, TData>
+) =>
+  useQuery<ExpensesQuery, TError, TData>(
+    variables === undefined ? ['Expenses'] : ['Expenses', variables],
+    fetcher<ExpensesQuery, ExpensesQueryVariables>(ExpensesDocument, variables),
+    options
+  );

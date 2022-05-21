@@ -20,9 +20,14 @@ ChartJS.register(
   Legend
 );
 
+export type StackedBarChartDataType = ChartData<
+  'bar',
+  { x: string; y: number }[]
+>;
+
 export const StackedBarChart: React.FC<{
   title: string;
-  data: ChartData<'bar', { x: string; y: number }[]>;
+  data: StackedBarChartDataType;
   height?: string;
 }> = ({ title, data, height }) => {
   const options: ChartOptions<'bar'> = {

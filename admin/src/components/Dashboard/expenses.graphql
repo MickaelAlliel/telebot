@@ -1,5 +1,9 @@
-query Expenses {
-  allExpenses {
+query Expenses($from: Datetime = "now()", $to: Datetime = "now()") {
+  allExpenses(
+    filter: {
+      timestamp: { greaterThanOrEqualTo: $from, lessThanOrEqualTo: $to }
+    }
+  ) {
     nodes {
       id
       amount

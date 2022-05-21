@@ -10,9 +10,12 @@
     "generate": "graphql-codegen --config graphql.codegen.yml"
   },
   "dependencies": {
+    "@date-io/date-fns": "^2.14.0",
     "@mui/icons-material": "^5.8.0",
     "@mui/material": "^5.8.0",
+    "@mui/styled-engine": "npm:@mui/styled-engine-sc@^5.8.0",
     "@mui/styled-engine-sc": "^5.8.0",
+    "@mui/x-date-pickers": "^5.0.0-alpha.4",
     "chance": "^1.1.8",
     "chart.js": "^3.7.1",
     "date-fns": "^2.28.0",
@@ -48,5 +51,8 @@
     "vite": "^2.9.9",
     "vite-plugin-html-env": "^1.1.2",
     "vite-plugin-linter": "^1.2.0"
+  },
+  "resolutions": {
+    "@mui/styled-engine": "npm:@mui/styled-engine-sc@^5.8.0"
   }
 }
