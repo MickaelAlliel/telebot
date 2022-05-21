@@ -8,8 +8,16 @@ generates:
       - 'typescript-operations'
       - 'typescript-react-query'
     config:
+      withHooks: true
+      strict: true
       fetcher:
-        endpoint: 'import.meta.env.GRAPHQL_ENDPOINT'
+        endpoint: 'import.meta.env.VITE_GRAPHQL_ENDPOINT'
+        fetchParams:
+          headers:
+            Content-Type: 'application/json'
+      hooks:
+        afterAllFileWrite:
+          - prettier --write
   ./graphql.schema.json:
     plugins:
       - 'introspection'

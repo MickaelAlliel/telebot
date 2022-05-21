@@ -20,6 +20,7 @@
     "sourceType": "module"
   },
   "plugins": ["react", "@typescript-eslint"],
+  "ignorePatterns": ["src/generated/graphql.ts"],
   "rules": {
     "@typescript-eslint/no-non-null-assertion": "off",
     "react/jsx-uses-vars": "error",

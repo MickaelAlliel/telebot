@@ -13,8 +13,9 @@ export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & {
 
 function fetcher<TData, TVariables>(query: string, variables?: TVariables) {
   return async (): Promise<TData> => {
-    const res = await fetch(import.meta.env.GRAPHQL_ENDPOINT as string, {
+    const res = await fetch(import.meta.env.VITE_GRAPHQL_ENDPOINT as string, {
       method: 'POST',
+      ...{ headers: { 'Content-Type': 'application/json' } },
       body: JSON.stringify({ query, variables }),
     });
 
