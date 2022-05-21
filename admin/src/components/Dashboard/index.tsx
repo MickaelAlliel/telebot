@@ -3,6 +3,7 @@ import { StackedBarChart } from './StackedBarChart';
 import { useGroupedExpenses } from './useGroupedExpenses';
 
 const Container = styled.div`
+  margin: 50px;
   display: flex;
 `;
 
