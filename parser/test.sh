@@ -1,3 +1,3 @@
-#!/bin/bash
+#!/bin/sh
 
 CGO_ENABLED=0 go test -v ./...

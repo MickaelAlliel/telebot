@@ -9,7 +9,7 @@ import (
 
 	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api/v5"
 	"golang.org/x/exp/slices"
-	"mickaelalliel.com/telebot/parser/ent"
+	"mickaelalliel.com/telebot/parser/internal/ent"
 	"mickaelalliel.com/telebot/parser/internal/utils"
 )
 

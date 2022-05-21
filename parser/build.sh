@@ -1,3 +1,3 @@
-#!/bin/bash
+#!/bin/sh
 
 go build cmd/parser.go

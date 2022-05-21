@@ -6,7 +6,7 @@ import (
 	"time"
 
 	"entgo.io/ent/dialect/sql"
-	"mickaelalliel.com/telebot/parser/ent/predicate"
+	"mickaelalliel.com/telebot/parser/internal/ent/predicate"
 )
 
 // ID filters vertices based on their ID field.

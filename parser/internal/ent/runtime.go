@@ -5,8 +5,8 @@ package ent
 import (
 	"time"
 
-	"mickaelalliel.com/telebot/parser/ent/expense"
-	"mickaelalliel.com/telebot/parser/ent/schema"
+	"mickaelalliel.com/telebot/parser/internal/ent/expense"
+	"mickaelalliel.com/telebot/parser/internal/ent/schema"
 )
 
 // The init function reads all schema descriptors with runtime code

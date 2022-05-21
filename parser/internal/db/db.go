@@ -8,8 +8,8 @@ import (
 
 	entsql "entgo.io/ent/dialect/sql"
 	_ "github.com/jackc/pgx/v4/stdlib"
-	"mickaelalliel.com/telebot/parser/ent"
 	"mickaelalliel.com/telebot/parser/internal/config"
+	"mickaelalliel.com/telebot/parser/internal/ent"
 )
 
 func NewDatabaseOrFail() *ent.Client {

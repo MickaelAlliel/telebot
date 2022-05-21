@@ -5,9 +5,9 @@ package enttest
 import (
 	"context"
 
-	"mickaelalliel.com/telebot/parser/ent"
+	"mickaelalliel.com/telebot/parser/internal/ent"
 	// required by schema hooks.
-	_ "mickaelalliel.com/telebot/parser/ent/runtime"
+	_ "mickaelalliel.com/telebot/parser/internal/ent/runtime"
 
 	"entgo.io/ent/dialect/sql/schema"
 )

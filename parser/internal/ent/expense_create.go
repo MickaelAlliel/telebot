@@ -10,7 +10,7 @@ import (
 
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"mickaelalliel.com/telebot/parser/ent/expense"
+	"mickaelalliel.com/telebot/parser/internal/ent/expense"
 )
 
 // ExpenseCreate is the builder for creating a Expense entity.
