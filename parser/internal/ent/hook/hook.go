@@ -6,7 +6,7 @@ import (
 	"context"
 	"fmt"
 
-	"mickaelalliel.com/telebot/parser/ent"
+	"mickaelalliel.com/telebot/parser/internal/ent"
 )
 
 // The ExpenseFunc type is an adapter to allow the use of ordinary

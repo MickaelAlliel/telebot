@@ -9,8 +9,8 @@ import (
 	"sync"
 	"time"
 
-	"mickaelalliel.com/telebot/parser/ent/expense"
-	"mickaelalliel.com/telebot/parser/ent/predicate"
+	"mickaelalliel.com/telebot/parser/internal/ent/expense"
+	"mickaelalliel.com/telebot/parser/internal/ent/predicate"
 
 	"entgo.io/ent"
 )

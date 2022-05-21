@@ -8,7 +8,7 @@ import (
 	"time"
 
 	"entgo.io/ent/dialect/sql"
-	"mickaelalliel.com/telebot/parser/ent/expense"
+	"mickaelalliel.com/telebot/parser/internal/ent/expense"
 )
 
 // Expense is the model entity for the Expense schema.

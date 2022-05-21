@@ -9,8 +9,8 @@ import (
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"mickaelalliel.com/telebot/parser/ent/expense"
-	"mickaelalliel.com/telebot/parser/ent/predicate"
+	"mickaelalliel.com/telebot/parser/internal/ent/expense"
+	"mickaelalliel.com/telebot/parser/internal/ent/predicate"
 )
 
 // ExpenseDelete is the builder for deleting a Expense entity.

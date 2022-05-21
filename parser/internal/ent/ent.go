@@ -8,7 +8,7 @@ import (
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
-	"mickaelalliel.com/telebot/parser/ent/expense"
+	"mickaelalliel.com/telebot/parser/internal/ent/expense"
 )
 
 // ent aliases to avoid import conflicts in user's code.

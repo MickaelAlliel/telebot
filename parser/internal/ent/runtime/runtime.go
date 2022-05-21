@@ -2,7 +2,7 @@
 
 package runtime
 
-// The schema-stitching logic is generated in mickaelalliel.com/telebot/parser/ent/runtime.go
+// The schema-stitching logic is generated in mickaelalliel.com/telebot/parser/internal/ent/runtime.go
 
 const (
 	Version = "v0.10.1"                                         // Version of ent codegen.

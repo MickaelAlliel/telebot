@@ -7,9 +7,9 @@ import (
 	"fmt"
 	"log"
 
-	"mickaelalliel.com/telebot/parser/ent/migrate"
+	"mickaelalliel.com/telebot/parser/internal/ent/migrate"
 
-	"mickaelalliel.com/telebot/parser/ent/expense"
+	"mickaelalliel.com/telebot/parser/internal/ent/expense"
 
 	"entgo.io/ent/dialect"
 	"entgo.io/ent/dialect/sql"
