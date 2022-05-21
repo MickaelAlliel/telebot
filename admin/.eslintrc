@@ -24,7 +24,8 @@
   "rules": {
     "@typescript-eslint/no-non-null-assertion": "off",
     "react/jsx-uses-vars": "error",
-    "react/jsx-uses-react": "error"
+    "react/jsx-uses-react": "error",
+    "react/prop-types": "off"
   },
   "settings": {
     "react": {
