@@ -1,1 +1,1 @@
-europe-west1-docker.pkg.dev/telebot-350915
+europe-west1-docker.pkg.dev/telebot-350915/telebot
