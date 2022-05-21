@@ -13,9 +13,14 @@ import (
 )
 
 func NewDatabaseOrFail() *ent.Client {
-	dsn := fmt.Sprintf("postgres://%s:%s@%s:%d/%s",
+	tcpOpt := ""
+	if config.DbConfig.TCP {
+		tcpOpt = "tcp"
+	}
+	dsn := fmt.Sprintf("postgres://%s:%s@%s%s:%d/%s",
 		config.DbConfig.Username,
 		config.DbConfig.Password,
+		tcpOpt,
 		config.DbConfig.Host,
 		config.DbConfig.Port,
 		config.DbConfig.Database)
