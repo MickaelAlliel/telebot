@@ -8,11 +8,13 @@ import {
   Title,
   Tooltip,
 } from 'chart.js';
-import ca from 'date-fns/esm/locale/ca/index.js';
-import { filter, flatMap, groupBy, map, method } from 'lodash';
+import { groupBy } from 'lodash';
 import { useMemo } from 'react';
 import { Bar } from 'react-chartjs-2';
+import styled from 'styled-components';
 import { useExpensesQuery } from '../../generated/graphql';
+
+const Container = styled.div``;
 
 ChartJS.register(
   CategoryScale,
@@ -31,10 +33,6 @@ export const options = {
     },
   },
   responsive: true,
-  interaction: {
-    mode: 'index' as const,
-    intersect: false,
-  },
   scales: {
     x: {
       stacked: true,
@@ -43,6 +41,7 @@ export const options = {
       stacked: true,
     },
   },
+  maintainAspectRatio: false,
 };
 
 const Dashboard = () => {
@@ -50,53 +49,46 @@ const Dashboard = () => {
 
   const chartData = useMemo(() => {
     if (!data?.allExpenses?.nodes) return { labels: [], datasets: [] };
+    const expensesPerMethod = groupBy(data.allExpenses.nodes, 'method');
     const expensesPerCategory = groupBy(data.allExpenses.nodes, 'category');
-    const expensesPerCategoryPerMethod = Object.entries(expensesPerCategory)
+    const expensesPerMethodPerCategory = Object.entries(expensesPerMethod)
       .map(([key, group]) => {
-        return { [key]: groupBy(group, 'method') };
+        return { [key]: groupBy(group, 'category') };
       })
       .reduce((obj, item) => Object.assign(obj, item));
 
-    console.table(expensesPerCategoryPerMethod);
-
-    const datasets = Object.entries(expensesPerCategoryPerMethod).map(
+    const datasets = Object.entries(expensesPerMethodPerCategory).map(
       ([label, group]) => {
         return {
           label,
-          stack: label,
+          stack: 'bar',
           data: Object.entries(group).map(([key, value]) => ({
-            x: label,
+            x: key,
             y: value.reduce(
               (previousValue, currentValue) =>
                 previousValue + currentValue.amount,
               0
             ),
           })),
+          backgroundColor: new Chance().color({
+            format: 'hex',
+            casing: 'upper',
+          }),
         };
       }
     );
 
-    console.table(datasets);
-
-    // const datasets = map(expensesPerMethodPerCategory, (methodGroup) => {
-    //   console.info('AA');
-    //   console.table(methodGroup);
-    //   return {
-    //     label,
-    //     data: expenses.map((e) => ({
-    //       x: label,
-    //       y: e.amount,
-    //     })),
-    //     backgroundColor: new Chance().color(),
-    //   };
-    // });
     return { labels: Object.keys(expensesPerCategory), datasets };
   }, [data]);
 
   if (error) return <div>err</div>;
   if (isFetching) return <div>loading</div>;
 
-  return <Bar options={options} data={chartData} />;
+  return (
+    <Container>
+      <Bar options={options} data={chartData} width={'100%'} height={'500px'} />
+    </Container>
+  );
 };
 
 export default Dashboard;
