@@ -41,6 +41,7 @@ In development (default), it will look for a `.env` file next to the binary/entr
 | DB_USERNAME           | `string`   | `postgres`         |                                                                                                                     |
 | DB_PASSWORD           | `string`   | `postgrespassword` |                                                                                                                     |
 | DB_DATABASE           | `string`   | `postgres`         |                                                                                                                     |
+| DB_TCP                | `boolean`  | `false`            | Used to connect to GCP Cloud SQL using TCP                                                                          |
 
 ## Parsing Messages
 ### Expenses

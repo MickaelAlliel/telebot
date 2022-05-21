@@ -24,6 +24,7 @@ type DatabaseConfiguration struct {
 	Username string `default:"postgres" envconfig:"db_username"`
 	Password string `default:"postgrespassword" envconfig:"db_password"`
 	Database string `default:"postgres" envconfig:"db_database"`
+	TCP      bool   `default:"false" envconfig:"DB_TCP"`
 }
 
 var initConfigOnce sync.Once
