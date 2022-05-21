@@ -10,6 +10,16 @@ generates:
     config:
       withHooks: true
       strict: true
+      scalars:
+        _text: string
+        citext: string
+        json: unknown
+        jsonb: unknown
+        timestamp: string
+        timestamptz: string
+        Date: string
+        Datetime: string
+        uuid: string
       fetcher:
         endpoint: 'import.meta.env.VITE_GRAPHQL_ENDPOINT'
         fetchParams:
