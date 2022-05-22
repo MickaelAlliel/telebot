@@ -1,1 +1,5 @@
 node_modules/
+amplify/
+dist/
+.vscode/
+src/aws-exports.ts
