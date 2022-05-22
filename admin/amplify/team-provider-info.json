@@ -1,0 +1,20 @@
+{
+  "telebot": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-telebot-telebot-90551-authRole",
+      "UnauthRoleArn": "arn:aws:iam::315445101738:role/amplify-telebot-telebot-90551-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::315445101738:role/amplify-telebot-telebot-90551-authRole",
+      "Region": "eu-west-1",
+      "DeploymentBucketName": "amplify-telebot-telebot-90551-deployment",
+      "UnauthRoleName": "amplify-telebot-telebot-90551-unauthRole",
+      "StackName": "amplify-telebot-telebot-90551",
+      "StackId": "arn:aws:cloudformation:eu-west-1:315445101738:stack/amplify-telebot-telebot-90551/2ef0cbd0-d995-11ec-a069-028691f477d1",
+      "AmplifyAppId": "d1za11tcd3ow42"
+    },
+    "categories": {
+      "auth": {
+        "telebot12e161f4": {}
+      }
+    }
+  }
+}
