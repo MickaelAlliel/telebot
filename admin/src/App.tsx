@@ -1,17 +1,16 @@
-import { Authenticator, useAuthenticator, View } from '@aws-amplify/ui-react';
+import { Authenticator } from '@aws-amplify/ui-react';
 import '@aws-amplify/ui-react/styles.css'; // default theme
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
+import { Amplify } from 'aws-amplify';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import { AuthenticatorView } from './components/Auth/AuthenticatorView';
 import { Logout } from './components/Auth/Logout';
 import Dashboard from './components/Dashboard';
-import { Amplify } from 'aws-amplify';
 
-import awsExports from './aws-exports';
 import styled from 'styled-components';
+import awsExports from './aws-exports';
 import { CustomAppBar } from './components/AppBar';
 Amplify.configure(awsExports);
 
