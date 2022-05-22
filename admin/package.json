@@ -11,12 +11,14 @@
     "generate": "graphql-codegen --config graphql.codegen.yml"
   },
   "dependencies": {
+    "@aws-amplify/ui-react": "^2.18.1",
     "@date-io/date-fns": "^2.14.0",
     "@mui/icons-material": "^5.8.0",
     "@mui/material": "^5.8.0",
     "@mui/styled-engine": "npm:@mui/styled-engine-sc@^5.8.0",
     "@mui/styled-engine-sc": "^5.8.0",
     "@mui/x-date-pickers": "^5.0.0-alpha.4",
+    "aws-amplify": "^4.3.22",
     "chance": "^1.1.8",
     "chart.js": "^3.7.1",
     "date-fns": "^2.28.0",
@@ -26,6 +28,7 @@
     "react-chartjs-2": "^4.1.0",
     "react-dom": "^18.0.0",
     "react-query": "^3.39.0",
+    "react-router-dom": "6",
     "styled-components": "^5.3.5"
   },
   "devDependencies": {

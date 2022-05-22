@@ -25,4 +25,12 @@ export default defineConfig((configEnv) => ({
   server: {
     port: 3002,
   },
+  resolve: {
+    alias: [
+      {
+        find: './runtimeConfig',
+        replacement: './runtimeConfig.browser',
+      },
+    ],
+  },
 }));
