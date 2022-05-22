@@ -1,4 +1,3 @@
-import { useAuthenticator } from '@aws-amplify/ui-react';
 import { format, subDays } from 'date-fns';
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
