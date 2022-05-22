@@ -1,4 +1,4 @@
-import { useAuthenticator, View } from '@aws-amplify/ui-react';
+import { useAuthenticator } from '@aws-amplify/ui-react';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
