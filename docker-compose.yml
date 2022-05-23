@@ -80,8 +80,8 @@ services:
     depends_on:
       - postgresql
     build:
-      context: .
-      dockerfile: Dockerfile.postgraphile
+      context: ./postgraphile
+      dockerfile: Dockerfile
     restart: always
     environment:
       DATABASE_URL: *db-dsn

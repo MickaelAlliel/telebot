@@ -1,0 +1,702 @@
+"""
+A signed eight-byte integer. The upper big integer values are greater than the
+max value for a JavaScript number. Therefore all big integers will be output as
+strings and not numbers.
+"""
+scalar BigInt
+
+"""
+A filter to be used against BigInt fields. All fields are combined with a logical ‘and.’
+"""
+input BigIntFilter {
+  """
+  Not equal to the specified value, treating null like an ordinary value.
+  """
+  distinctFrom: BigInt
+
+  """Equal to the specified value."""
+  equalTo: BigInt
+
+  """Greater than the specified value."""
+  greaterThan: BigInt
+
+  """Greater than or equal to the specified value."""
+  greaterThanOrEqualTo: BigInt
+
+  """Included in the specified list."""
+  in: [BigInt!]
+
+  """
+  Is null (if `true` is specified) or is not null (if `false` is specified).
+  """
+  isNull: Boolean
+
+  """Less than the specified value."""
+  lessThan: BigInt
+
+  """Less than or equal to the specified value."""
+  lessThanOrEqualTo: BigInt
+
+  """Equal to the specified value, treating null like an ordinary value."""
+  notDistinctFrom: BigInt
+
+  """Not equal to the specified value."""
+  notEqualTo: BigInt
+
+  """Not included in the specified list."""
+  notIn: [BigInt!]
+}
+
+"""All input for the create `Expense` mutation."""
+input CreateExpenseInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """The `Expense` to be created by this mutation."""
+  expense: ExpenseInput!
+}
+
+"""The output of our create `Expense` mutation."""
+type CreateExpensePayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `Expense` that was created by this mutation."""
+  expense: Expense
+
+  """An edge for our `Expense`. May be used by Relay 1."""
+  expenseEdge(
+    """The method to use when ordering `Expense`."""
+    orderBy: [ExpensesOrderBy!] = [PRIMARY_KEY_ASC]
+  ): ExpensesEdge
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+}
+
+"""A location in a connection that can be used for resuming pagination."""
+scalar Cursor
+
+"""
+A point in time as described by the [ISO
+8601](https://en.wikipedia.org/wiki/ISO_8601) standard. May or may not include a timezone.
+"""
+scalar Datetime
+
+"""
+A filter to be used against Datetime fields. All fields are combined with a logical ‘and.’
+"""
+input DatetimeFilter {
+  """
+  Not equal to the specified value, treating null like an ordinary value.
+  """
+  distinctFrom: Datetime
+
+  """Equal to the specified value."""
+  equalTo: Datetime
+
+  """Greater than the specified value."""
+  greaterThan: Datetime
+
+  """Greater than or equal to the specified value."""
+  greaterThanOrEqualTo: Datetime
+
+  """Included in the specified list."""
+  in: [Datetime!]
+
+  """
+  Is null (if `true` is specified) or is not null (if `false` is specified).
+  """
+  isNull: Boolean
+
+  """Less than the specified value."""
+  lessThan: Datetime
+
+  """Less than or equal to the specified value."""
+  lessThanOrEqualTo: Datetime
+
+  """Equal to the specified value, treating null like an ordinary value."""
+  notDistinctFrom: Datetime
+
+  """Not equal to the specified value."""
+  notEqualTo: Datetime
+
+  """Not included in the specified list."""
+  notIn: [Datetime!]
+}
+
+"""All input for the `deleteExpenseByNodeId` mutation."""
+input DeleteExpenseByNodeIdInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  The globally unique `ID` which will identify a single `Expense` to be deleted.
+  """
+  nodeId: ID!
+}
+
+"""All input for the `deleteExpense` mutation."""
+input DeleteExpenseInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+  id: BigInt!
+}
+
+"""The output of our delete `Expense` mutation."""
+type DeleteExpensePayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+  deletedExpenseNodeId: ID
+
+  """The `Expense` that was deleted by this mutation."""
+  expense: Expense
+
+  """An edge for our `Expense`. May be used by Relay 1."""
+  expenseEdge(
+    """The method to use when ordering `Expense`."""
+    orderBy: [ExpensesOrderBy!] = [PRIMARY_KEY_ASC]
+  ): ExpensesEdge
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+}
+
+type Expense implements Node {
+  amount: Float!
+  category: String!
+  createdAt: Datetime!
+  id: BigInt!
+  method: String!
+
+  """
+  A globally unique identifier. Can be used in various places throughout the system to identify this single value.
+  """
+  nodeId: ID!
+  ownerName: String!
+  timestamp: Datetime!
+}
+
+"""
+A condition to be used against `Expense` object types. All fields are tested for equality and combined with a logical ‘and.’
+"""
+input ExpenseCondition {
+  """Checks for equality with the object’s `amount` field."""
+  amount: Float
+
+  """Checks for equality with the object’s `category` field."""
+  category: String
+
+  """Checks for equality with the object’s `createdAt` field."""
+  createdAt: Datetime
+
+  """Checks for equality with the object’s `id` field."""
+  id: BigInt
+
+  """Checks for equality with the object’s `method` field."""
+  method: String
+
+  """Checks for equality with the object’s `ownerName` field."""
+  ownerName: String
+
+  """Checks for equality with the object’s `timestamp` field."""
+  timestamp: Datetime
+}
+
+"""
+A filter to be used against `Expense` object types. All fields are combined with a logical ‘and.’
+"""
+input ExpenseFilter {
+  """Filter by the object’s `amount` field."""
+  amount: FloatFilter
+
+  """Checks for all expressions in this list."""
+  and: [ExpenseFilter!]
+
+  """Filter by the object’s `category` field."""
+  category: StringFilter
+
+  """Filter by the object’s `createdAt` field."""
+  createdAt: DatetimeFilter
+
+  """Filter by the object’s `id` field."""
+  id: BigIntFilter
+
+  """Filter by the object’s `method` field."""
+  method: StringFilter
+
+  """Negates the expression."""
+  not: ExpenseFilter
+
+  """Checks for any expressions in this list."""
+  or: [ExpenseFilter!]
+
+  """Filter by the object’s `ownerName` field."""
+  ownerName: StringFilter
+
+  """Filter by the object’s `timestamp` field."""
+  timestamp: DatetimeFilter
+}
+
+"""An input for mutations affecting `Expense`"""
+input ExpenseInput {
+  amount: Float!
+  category: String!
+  createdAt: Datetime!
+  id: BigInt
+  method: String!
+  ownerName: String!
+  timestamp: Datetime!
+}
+
+"""
+Represents an update to a `Expense`. Fields that are set will be updated.
+"""
+input ExpensePatch {
+  amount: Float
+  category: String
+  createdAt: Datetime
+  id: BigInt
+  method: String
+  ownerName: String
+  timestamp: Datetime
+}
+
+"""A connection to a list of `Expense` values."""
+type ExpensesConnection {
+  """
+  A list of edges which contains the `Expense` and cursor to aid in pagination.
+  """
+  edges: [ExpensesEdge!]!
+
+  """A list of `Expense` objects."""
+  nodes: [Expense!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `Expense` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""A `Expense` edge in the connection."""
+type ExpensesEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `Expense` at the end of the edge."""
+  node: Expense!
+}
+
+"""Methods to use when ordering `Expense`."""
+enum ExpensesOrderBy {
+  AMOUNT_ASC
+  AMOUNT_DESC
+  CATEGORY_ASC
+  CATEGORY_DESC
+  CREATED_AT_ASC
+  CREATED_AT_DESC
+  ID_ASC
+  ID_DESC
+  METHOD_ASC
+  METHOD_DESC
+  NATURAL
+  OWNER_NAME_ASC
+  OWNER_NAME_DESC
+  PRIMARY_KEY_ASC
+  PRIMARY_KEY_DESC
+  TIMESTAMP_ASC
+  TIMESTAMP_DESC
+}
+
+"""
+A filter to be used against Float fields. All fields are combined with a logical ‘and.’
+"""
+input FloatFilter {
+  """
+  Not equal to the specified value, treating null like an ordinary value.
+  """
+  distinctFrom: Float
+
+  """Equal to the specified value."""
+  equalTo: Float
+
+  """Greater than the specified value."""
+  greaterThan: Float
+
+  """Greater than or equal to the specified value."""
+  greaterThanOrEqualTo: Float
+
+  """Included in the specified list."""
+  in: [Float!]
+
+  """
+  Is null (if `true` is specified) or is not null (if `false` is specified).
+  """
+  isNull: Boolean
+
+  """Less than the specified value."""
+  lessThan: Float
+
+  """Less than or equal to the specified value."""
+  lessThanOrEqualTo: Float
+
+  """Equal to the specified value, treating null like an ordinary value."""
+  notDistinctFrom: Float
+
+  """Not equal to the specified value."""
+  notEqualTo: Float
+
+  """Not included in the specified list."""
+  notIn: [Float!]
+}
+
+"""
+The root mutation type which contains root level fields which mutate data.
+"""
+type Mutation {
+  """Creates a single `Expense`."""
+  createExpense(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: CreateExpenseInput!
+  ): CreateExpensePayload
+
+  """Deletes a single `Expense` using a unique key."""
+  deleteExpense(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteExpenseInput!
+  ): DeleteExpensePayload
+
+  """Deletes a single `Expense` using its globally unique id."""
+  deleteExpenseByNodeId(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteExpenseByNodeIdInput!
+  ): DeleteExpensePayload
+
+  """Updates a single `Expense` using a unique key and a patch."""
+  updateExpense(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: UpdateExpenseInput!
+  ): UpdateExpensePayload
+
+  """Updates a single `Expense` using its globally unique id and a patch."""
+  updateExpenseByNodeId(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: UpdateExpenseByNodeIdInput!
+  ): UpdateExpensePayload
+}
+
+"""An object with a globally unique `ID`."""
+interface Node {
+  """
+  A globally unique identifier. Can be used in various places throughout the system to identify this single value.
+  """
+  nodeId: ID!
+}
+
+"""Information about pagination in a connection."""
+type PageInfo {
+  """When paginating forwards, the cursor to continue."""
+  endCursor: Cursor
+
+  """When paginating forwards, are there more items?"""
+  hasNextPage: Boolean!
+
+  """When paginating backwards, are there more items?"""
+  hasPreviousPage: Boolean!
+
+  """When paginating backwards, the cursor to continue."""
+  startCursor: Cursor
+}
+
+"""The root query type which gives access points into the data universe."""
+type Query implements Node {
+  expense(id: BigInt!): Expense
+
+  """Reads a single `Expense` using its globally unique `ID`."""
+  expenseByNodeId(
+    """The globally unique `ID` to be used in selecting a single `Expense`."""
+    nodeId: ID!
+  ): Expense
+
+  """Reads and enables pagination through a set of `Expense`."""
+  expenses(
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ExpenseCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: ExpenseFilter
+
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """The method to use when ordering `Expense`."""
+    orderBy: [ExpensesOrderBy!] = [PRIMARY_KEY_ASC]
+  ): ExpensesConnection
+
+  """Fetches an object given its globally unique `ID`."""
+  node(
+    """The globally unique `ID`."""
+    nodeId: ID!
+  ): Node
+
+  """
+  The root query type must be a `Node` to work well with Relay 1 mutations. This just resolves to `query`.
+  """
+  nodeId: ID!
+
+  """
+  Exposes the root query type nested one level down. This is helpful for Relay 1
+  which can only query top level fields if they are in a particular form.
+  """
+  query: Query!
+}
+
+"""
+A filter to be used against String fields. All fields are combined with a logical ‘and.’
+"""
+input StringFilter {
+  """
+  Not equal to the specified value, treating null like an ordinary value.
+  """
+  distinctFrom: String
+
+  """
+  Not equal to the specified value, treating null like an ordinary value (case-insensitive).
+  """
+  distinctFromInsensitive: String
+
+  """Ends with the specified string (case-sensitive)."""
+  endsWith: String
+
+  """Ends with the specified string (case-insensitive)."""
+  endsWithInsensitive: String
+
+  """Equal to the specified value."""
+  equalTo: String
+
+  """Equal to the specified value (case-insensitive)."""
+  equalToInsensitive: String
+
+  """Greater than the specified value."""
+  greaterThan: String
+
+  """Greater than the specified value (case-insensitive)."""
+  greaterThanInsensitive: String
+
+  """Greater than or equal to the specified value."""
+  greaterThanOrEqualTo: String
+
+  """Greater than or equal to the specified value (case-insensitive)."""
+  greaterThanOrEqualToInsensitive: String
+
+  """Included in the specified list."""
+  in: [String!]
+
+  """Included in the specified list (case-insensitive)."""
+  inInsensitive: [String!]
+
+  """Contains the specified string (case-sensitive)."""
+  includes: String
+
+  """Contains the specified string (case-insensitive)."""
+  includesInsensitive: String
+
+  """
+  Is null (if `true` is specified) or is not null (if `false` is specified).
+  """
+  isNull: Boolean
+
+  """Less than the specified value."""
+  lessThan: String
+
+  """Less than the specified value (case-insensitive)."""
+  lessThanInsensitive: String
+
+  """Less than or equal to the specified value."""
+  lessThanOrEqualTo: String
+
+  """Less than or equal to the specified value (case-insensitive)."""
+  lessThanOrEqualToInsensitive: String
+
+  """
+  Matches the specified pattern (case-sensitive). An underscore (_) matches any single character; a percent sign (%) matches any sequence of zero or more characters.
+  """
+  like: String
+
+  """
+  Matches the specified pattern (case-insensitive). An underscore (_) matches any single character; a percent sign (%) matches any sequence of zero or more characters.
+  """
+  likeInsensitive: String
+
+  """Equal to the specified value, treating null like an ordinary value."""
+  notDistinctFrom: String
+
+  """
+  Equal to the specified value, treating null like an ordinary value (case-insensitive).
+  """
+  notDistinctFromInsensitive: String
+
+  """Does not end with the specified string (case-sensitive)."""
+  notEndsWith: String
+
+  """Does not end with the specified string (case-insensitive)."""
+  notEndsWithInsensitive: String
+
+  """Not equal to the specified value."""
+  notEqualTo: String
+
+  """Not equal to the specified value (case-insensitive)."""
+  notEqualToInsensitive: String
+
+  """Not included in the specified list."""
+  notIn: [String!]
+
+  """Not included in the specified list (case-insensitive)."""
+  notInInsensitive: [String!]
+
+  """Does not contain the specified string (case-sensitive)."""
+  notIncludes: String
+
+  """Does not contain the specified string (case-insensitive)."""
+  notIncludesInsensitive: String
+
+  """
+  Does not match the specified pattern (case-sensitive). An underscore (_) matches any single character; a percent sign (%) matches any sequence of zero or more characters.
+  """
+  notLike: String
+
+  """
+  Does not match the specified pattern (case-insensitive). An underscore (_) matches any single character; a percent sign (%) matches any sequence of zero or more characters.
+  """
+  notLikeInsensitive: String
+
+  """Does not start with the specified string (case-sensitive)."""
+  notStartsWith: String
+
+  """Does not start with the specified string (case-insensitive)."""
+  notStartsWithInsensitive: String
+
+  """Starts with the specified string (case-sensitive)."""
+  startsWith: String
+
+  """Starts with the specified string (case-insensitive)."""
+  startsWithInsensitive: String
+}
+
+"""
+The root subscription type: contains realtime events you can subscribe to with the `subscription` operation.
+"""
+type Subscription {
+  time: TimePayload
+}
+
+type TimePayload {
+  currentTimestamp: String
+  query: Query
+}
+
+"""All input for the `updateExpenseByNodeId` mutation."""
+input UpdateExpenseByNodeIdInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  The globally unique `ID` which will identify a single `Expense` to be updated.
+  """
+  nodeId: ID!
+
+  """
+  An object where the defined keys will be set on the `Expense` being updated.
+  """
+  patch: ExpensePatch!
+}
+
+"""All input for the `updateExpense` mutation."""
+input UpdateExpenseInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+  id: BigInt!
+
+  """
+  An object where the defined keys will be set on the `Expense` being updated.
+  """
+  patch: ExpensePatch!
+}
+
+"""The output of our update `Expense` mutation."""
+type UpdateExpensePayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `Expense` that was updated by this mutation."""
+  expense: Expense
+
+  """An edge for our `Expense`. May be used by Relay 1."""
+  expenseEdge(
+    """The method to use when ordering `Expense`."""
+    orderBy: [ExpensesOrderBy!] = [PRIMARY_KEY_ASC]
+  ): ExpensesEdge
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+}
