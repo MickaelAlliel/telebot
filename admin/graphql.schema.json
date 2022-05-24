@@ -6,7 +6,9 @@
     "mutationType": {
       "name": "Mutation"
     },
-    "subscriptionType": null,
+    "subscriptionType": {
+      "name": "Subscription"
+    },
     "types": [
       {
         "kind": "SCALAR",
@@ -487,47 +489,8 @@
       },
       {
         "kind": "INPUT_OBJECT",
-        "name": "DeleteExpenseByIdInput",
-        "description": "All input for the `deleteExpenseById` mutation.",
-        "fields": null,
-        "inputFields": [
-          {
-            "name": "clientMutationId",
-            "description": "An arbitrary string value with no semantic meaning. Will be included in the\npayload verbatim. May be used to track mutations by the client.",
-            "type": {
-              "kind": "SCALAR",
-              "name": "String",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "id",
-            "description": null,
-            "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "BigInt",
-                "ofType": null
-              }
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          }
-        ],
-        "interfaces": null,
-        "enumValues": null,
-        "possibleTypes": null
-      },
-      {
-        "kind": "INPUT_OBJECT",
-        "name": "DeleteExpenseInput",
-        "description": "All input for the `deleteExpense` mutation.",
+        "name": "DeleteExpenseByNodeIdInput",
+        "description": "All input for the `deleteExpenseByNodeId` mutation.",
         "fields": null,
         "inputFields": [
           {
@@ -564,6 +527,45 @@
         "possibleTypes": null
       },
       {
+        "kind": "INPUT_OBJECT",
+        "name": "DeleteExpenseInput",
+        "description": "All input for the `deleteExpense` mutation.",
+        "fields": null,
+        "inputFields": [
+          {
+            "name": "clientMutationId",
+            "description": "An arbitrary string value with no semantic meaning. Will be included in the\npayload verbatim. May be used to track mutations by the client.",
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "id",
+            "description": null,
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "BigInt",
+                "ofType": null
+              }
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "interfaces": null,
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
         "kind": "OBJECT",
         "name": "DeleteExpensePayload",
         "description": "The output of our delete `Expense` mutation.",
@@ -581,7 +583,7 @@
             "deprecationReason": null
           },
           {
-            "name": "deletedExpenseId",
+            "name": "deletedExpenseNodeId",
             "description": null,
             "args": [],
             "type": {
@@ -1724,7 +1726,7 @@
           },
           {
             "name": "deleteExpense",
-            "description": "Deletes a single `Expense` using its globally unique id.",
+            "description": "Deletes a single `Expense` using a unique key.",
             "args": [
               {
                 "name": "input",
@@ -1752,8 +1754,8 @@
             "deprecationReason": null
           },
           {
-            "name": "deleteExpenseById",
-            "description": "Deletes a single `Expense` using a unique key.",
+            "name": "deleteExpenseByNodeId",
+            "description": "Deletes a single `Expense` using its globally unique id.",
             "args": [
               {
                 "name": "input",
@@ -1763,7 +1765,7 @@
                   "name": null,
                   "ofType": {
                     "kind": "INPUT_OBJECT",
-                    "name": "DeleteExpenseByIdInput",
+                    "name": "DeleteExpenseByNodeIdInput",
                     "ofType": null
                   }
                 },
@@ -1782,7 +1784,7 @@
           },
           {
             "name": "updateExpense",
-            "description": "Updates a single `Expense` using its globally unique id and a patch.",
+            "description": "Updates a single `Expense` using a unique key and a patch.",
             "args": [
               {
                 "name": "input",
@@ -1810,8 +1812,8 @@
             "deprecationReason": null
           },
           {
-            "name": "updateExpenseById",
-            "description": "Updates a single `Expense` using a unique key and a patch.",
+            "name": "updateExpenseByNodeId",
+            "description": "Updates a single `Expense` using its globally unique id and a patch.",
             "args": [
               {
                 "name": "input",
@@ -1821,7 +1823,7 @@
                   "name": null,
                   "ofType": {
                     "kind": "INPUT_OBJECT",
-                    "name": "UpdateExpenseByIdInput",
+                    "name": "UpdateExpenseByNodeIdInput",
                     "ofType": null
                   }
                 },
@@ -1955,7 +1957,65 @@
         "description": "The root query type which gives access points into the data universe.",
         "fields": [
           {
-            "name": "allExpenses",
+            "name": "expense",
+            "description": null,
+            "args": [
+              {
+                "name": "id",
+                "description": null,
+                "type": {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "BigInt",
+                    "ofType": null
+                  }
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              }
+            ],
+            "type": {
+              "kind": "OBJECT",
+              "name": "Expense",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "expenseByNodeId",
+            "description": "Reads a single `Expense` using its globally unique `ID`.",
+            "args": [
+              {
+                "name": "nodeId",
+                "description": "The globally unique `ID` to be used in selecting a single `Expense`.",
+                "type": {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "ID",
+                    "ofType": null
+                  }
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              }
+            ],
+            "type": {
+              "kind": "OBJECT",
+              "name": "Expense",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "expenses",
             "description": "Reads and enables pagination through a set of `Expense`.",
             "args": [
               {
@@ -2066,64 +2126,6 @@
             "type": {
               "kind": "OBJECT",
               "name": "ExpensesConnection",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "expense",
-            "description": "Reads a single `Expense` using its globally unique `ID`.",
-            "args": [
-              {
-                "name": "nodeId",
-                "description": "The globally unique `ID` to be used in selecting a single `Expense`.",
-                "type": {
-                  "kind": "NON_NULL",
-                  "name": null,
-                  "ofType": {
-                    "kind": "SCALAR",
-                    "name": "ID",
-                    "ofType": null
-                  }
-                },
-                "defaultValue": null,
-                "isDeprecated": false,
-                "deprecationReason": null
-              }
-            ],
-            "type": {
-              "kind": "OBJECT",
-              "name": "Expense",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "expenseById",
-            "description": null,
-            "args": [
-              {
-                "name": "id",
-                "description": null,
-                "type": {
-                  "kind": "NON_NULL",
-                  "name": null,
-                  "ofType": {
-                    "kind": "SCALAR",
-                    "name": "BigInt",
-                    "ofType": null
-                  }
-                },
-                "defaultValue": null,
-                "isDeprecated": false,
-                "deprecationReason": null
-              }
-            ],
-            "type": {
-              "kind": "OBJECT",
-              "name": "Expense",
               "ofType": null
             },
             "isDeprecated": false,
@@ -2700,9 +2702,67 @@
         "possibleTypes": null
       },
       {
+        "kind": "OBJECT",
+        "name": "Subscription",
+        "description": "The root subscription type: contains realtime events you can subscribe to with the `subscription` operation.",
+        "fields": [
+          {
+            "name": "time",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "OBJECT",
+              "name": "TimePayload",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "inputFields": null,
+        "interfaces": [],
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "OBJECT",
+        "name": "TimePayload",
+        "description": null,
+        "fields": [
+          {
+            "name": "currentTimestamp",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "query",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "OBJECT",
+              "name": "Query",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "inputFields": null,
+        "interfaces": [],
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
         "kind": "INPUT_OBJECT",
-        "name": "UpdateExpenseByIdInput",
-        "description": "All input for the `updateExpenseById` mutation.",
+        "name": "UpdateExpenseByNodeIdInput",
+        "description": "All input for the `updateExpenseByNodeId` mutation.",
         "fields": null,
         "inputFields": [
           {
@@ -2718,14 +2778,14 @@
             "deprecationReason": null
           },
           {
-            "name": "expensePatch",
-            "description": "An object where the defined keys will be set on the `Expense` being updated.",
+            "name": "nodeId",
+            "description": "The globally unique `ID` which will identify a single `Expense` to be updated.",
             "type": {
               "kind": "NON_NULL",
               "name": null,
               "ofType": {
-                "kind": "INPUT_OBJECT",
-                "name": "ExpensePatch",
+                "kind": "SCALAR",
+                "name": "ID",
                 "ofType": null
               }
             },
@@ -2734,14 +2794,14 @@
             "deprecationReason": null
           },
           {
-            "name": "id",
-            "description": null,
+            "name": "patch",
+            "description": "An object where the defined keys will be set on the `Expense` being updated.",
             "type": {
               "kind": "NON_NULL",
               "name": null,
               "ofType": {
-                "kind": "SCALAR",
-                "name": "BigInt",
+                "kind": "INPUT_OBJECT",
+                "name": "ExpensePatch",
                 "ofType": null
               }
             },
@@ -2773,14 +2833,14 @@
             "deprecationReason": null
           },
           {
-            "name": "expensePatch",
-            "description": "An object where the defined keys will be set on the `Expense` being updated.",
+            "name": "id",
+            "description": null,
             "type": {
               "kind": "NON_NULL",
               "name": null,
               "ofType": {
-                "kind": "INPUT_OBJECT",
-                "name": "ExpensePatch",
+                "kind": "SCALAR",
+                "name": "BigInt",
                 "ofType": null
               }
             },
@@ -2789,14 +2849,14 @@
             "deprecationReason": null
           },
           {
-            "name": "nodeId",
-            "description": "The globally unique `ID` which will identify a single `Expense` to be updated.",
+            "name": "patch",
+            "description": "An object where the defined keys will be set on the `Expense` being updated.",
             "type": {
               "kind": "NON_NULL",
               "name": null,
               "ofType": {
-                "kind": "SCALAR",
-                "name": "ID",
+                "kind": "INPUT_OBJECT",
+                "name": "ExpensePatch",
                 "ofType": null
               }
             },
@@ -3827,7 +3887,11 @@
         "name": "include",
         "description": "Directs the executor to include this field or fragment only when the `if` argument is true.",
         "isRepeatable": false,
-        "locations": ["FIELD", "FRAGMENT_SPREAD", "INLINE_FRAGMENT"],
+        "locations": [
+          "FIELD",
+          "FRAGMENT_SPREAD",
+          "INLINE_FRAGMENT"
+        ],
         "args": [
           {
             "name": "if",
@@ -3851,7 +3915,11 @@
         "name": "skip",
         "description": "Directs the executor to skip this field or fragment when the `if` argument is true.",
         "isRepeatable": false,
-        "locations": ["FIELD", "FRAGMENT_SPREAD", "INLINE_FRAGMENT"],
+        "locations": [
+          "FIELD",
+          "FRAGMENT_SPREAD",
+          "INLINE_FRAGMENT"
+        ],
         "args": [
           {
             "name": "if",
@@ -3875,7 +3943,9 @@
         "name": "specifiedBy",
         "description": "Exposes a URL that specifies the behavior of this scalar.",
         "isRepeatable": false,
-        "locations": ["SCALAR"],
+        "locations": [
+          "SCALAR"
+        ],
         "args": [
           {
             "name": "url",

@@ -1,5 +1,5 @@
 query Expenses($from: Datetime = "now()", $to: Datetime = "now()") {
-  allExpenses(
+  expenses(
     filter: {
       timestamp: { greaterThanOrEqualTo: $from, lessThanOrEqualTo: $to }
     }

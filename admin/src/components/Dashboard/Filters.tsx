@@ -46,7 +46,7 @@ export const Filters: React.FC<{
   }, [setFilterCategory, setFilterOwner, setFilterPaymentMethod]);
 
   const filteredData: Omit<Expense, 'createdAt'>[] = useMemo(() => {
-    const expenses = data?.allExpenses?.nodes;
+    const expenses = data?.expenses?.nodes;
     if (!expenses) return [];
     let filtered = expenses;
     if (filterCategory !== null) {
@@ -60,12 +60,7 @@ export const Filters: React.FC<{
       filtered = filtered.filter((exp) => filterOwner === exp.ownerName);
     }
     return filtered;
-  }, [
-    data?.allExpenses?.nodes,
-    filterCategory,
-    filterPaymentMethod,
-    filterOwner,
-  ]);
+  }, [data?.expenses?.nodes, filterCategory, filterPaymentMethod, filterOwner]);
 
   useEffect(
     () => setFilteredData(filteredData),

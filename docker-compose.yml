@@ -85,6 +85,7 @@ services:
     restart: always
     environment:
       DATABASE_URL: *db-dsn
+      NODE_ENV: development
     ports:
       - 5000:5000
     networks:
@@ -92,25 +93,6 @@ services:
     profiles:
       - all
       - gql
-    command: ["--cors", "--subscriptions", "--watch", "--dynamic-json", "--no-setof-functions-contain-nulls", "--no-ignore-rbac", "--show-error-stack=json", "--extended-errors", "hint,detail,errcode", "--append-plugins", "@graphile-contrib/pg-simplify-inflector", "--append-plugins", "postgraphile-plugin-connection-filter", "--export-schema-graphql", "schema.graphql", "--graphiql", "/", "--enhance-graphiql", "--allow-explain", "--enable-query-batching", "--legacy-relations", "omit"]
-
-  # grafana:
-  #   image: grafana/grafana-oss:8.5.3
-  #   pull_policy: if_not_present
-  #   restart: always
-  #   environment:
-  #     GF_SECURITY_ADMIN_USER: *gf-admin-username
-  #     GF_SECURITY_ADMIN_PASSWORD: *gf-admin-password
-  #     GF_USERS_ALLOW_SIGNUP: "false"
-  #   volumes:
-  #     - grafana_data:/var/lib/grafana
-  #   ports:
-  #     - 3001:3000
-  #   networks:
-  #     - telebot
-  #   profiles:
-  #     - all
-  #     - grafana
 
 volumes:
   pg_data:

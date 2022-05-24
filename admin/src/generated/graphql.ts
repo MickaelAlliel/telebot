@@ -1,35 +1,10 @@
 import { useQuery, UseQueryOptions } from 'react-query';
+import { authedFetcher } from '../services/AuthenticatedFetchProvider';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
-export type Exact<T extends { [key: string]: unknown }> = {
-  [K in keyof T]: T[K];
-};
-export type MakeOptional<T, K extends keyof T> = Omit<T, K> & {
-  [SubKey in K]?: Maybe<T[SubKey]>;
-};
-export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & {
-  [SubKey in K]: Maybe<T[SubKey]>;
-};
-
-function fetcher<TData, TVariables>(query: string, variables?: TVariables) {
-  return async (): Promise<TData> => {
-    const res = await fetch(import.meta.env.VITE_GRAPHQL_ENDPOINT as string, {
-      method: 'POST',
-      ...{ headers: { 'Content-Type': 'application/json' } },
-      body: JSON.stringify({ query, variables }),
-    });
-
-    const json = await res.json();
-
-    if (json.errors) {
-      const { message } = json.errors[0];
-
-      throw new Error(message);
-    }
-
-    return json.data;
-  };
-}
+export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
+export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
+export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: string;
@@ -105,6 +80,7 @@ export type CreateExpensePayload = {
   query?: Maybe<Query>;
 };
 
+
 /** The output of our create `Expense` mutation. */
 export type CreateExpensePayloadExpenseEdgeArgs = {
   orderBy?: InputMaybe<Array<ExpensesOrderBy>>;
@@ -136,14 +112,15 @@ export type DatetimeFilter = {
   notIn?: InputMaybe<Array<Scalars['Datetime']>>;
 };
 
-/** All input for the `deleteExpenseById` mutation. */
-export type DeleteExpenseByIdInput = {
+/** All input for the `deleteExpenseByNodeId` mutation. */
+export type DeleteExpenseByNodeIdInput = {
   /**
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
    */
   clientMutationId?: InputMaybe<Scalars['String']>;
-  id: Scalars['BigInt'];
+  /** The globally unique `ID` which will identify a single `Expense` to be deleted. */
+  nodeId: Scalars['ID'];
 };
 
 /** All input for the `deleteExpense` mutation. */
@@ -153,8 +130,7 @@ export type DeleteExpenseInput = {
    * payload verbatim. May be used to track mutations by the client.
    */
   clientMutationId?: InputMaybe<Scalars['String']>;
-  /** The globally unique `ID` which will identify a single `Expense` to be deleted. */
-  nodeId: Scalars['ID'];
+  id: Scalars['BigInt'];
 };
 
 /** The output of our delete `Expense` mutation. */
@@ -165,7 +141,7 @@ export type DeleteExpensePayload = {
    * unchanged and unused. May be used by a client to track mutations.
    */
   clientMutationId?: Maybe<Scalars['String']>;
-  deletedExpenseId?: Maybe<Scalars['ID']>;
+  deletedExpenseNodeId?: Maybe<Scalars['ID']>;
   /** The `Expense` that was deleted by this mutation. */
   expense?: Maybe<Expense>;
   /** An edge for our `Expense`. May be used by Relay 1. */
@@ -173,6 +149,7 @@ export type DeleteExpensePayload = {
   /** Our root query field type. Allows us to run any query from our mutation payload. */
   query?: Maybe<Query>;
 };
+
 
 /** The output of our delete `Expense` mutation. */
 export type DeleteExpensePayloadExpenseEdgeArgs = {
@@ -296,7 +273,7 @@ export enum ExpensesOrderBy {
   PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
   PrimaryKeyDesc = 'PRIMARY_KEY_DESC',
   TimestampAsc = 'TIMESTAMP_ASC',
-  TimestampDesc = 'TIMESTAMP_DESC',
+  TimestampDesc = 'TIMESTAMP_DESC'
 }
 
 /** A filter to be used against Float fields. All fields are combined with a logical ‘and.’ */
@@ -330,39 +307,44 @@ export type Mutation = {
   __typename?: 'Mutation';
   /** Creates a single `Expense`. */
   createExpense?: Maybe<CreateExpensePayload>;
-  /** Deletes a single `Expense` using its globally unique id. */
-  deleteExpense?: Maybe<DeleteExpensePayload>;
   /** Deletes a single `Expense` using a unique key. */
-  deleteExpenseById?: Maybe<DeleteExpensePayload>;
-  /** Updates a single `Expense` using its globally unique id and a patch. */
-  updateExpense?: Maybe<UpdateExpensePayload>;
+  deleteExpense?: Maybe<DeleteExpensePayload>;
+  /** Deletes a single `Expense` using its globally unique id. */
+  deleteExpenseByNodeId?: Maybe<DeleteExpensePayload>;
   /** Updates a single `Expense` using a unique key and a patch. */
-  updateExpenseById?: Maybe<UpdateExpensePayload>;
+  updateExpense?: Maybe<UpdateExpensePayload>;
+  /** Updates a single `Expense` using its globally unique id and a patch. */
+  updateExpenseByNodeId?: Maybe<UpdateExpensePayload>;
 };
+
 
 /** The root mutation type which contains root level fields which mutate data. */
 export type MutationCreateExpenseArgs = {
   input: CreateExpenseInput;
 };
 
+
 /** The root mutation type which contains root level fields which mutate data. */
 export type MutationDeleteExpenseArgs = {
   input: DeleteExpenseInput;
 };
 
+
 /** The root mutation type which contains root level fields which mutate data. */
-export type MutationDeleteExpenseByIdArgs = {
-  input: DeleteExpenseByIdInput;
+export type MutationDeleteExpenseByNodeIdArgs = {
+  input: DeleteExpenseByNodeIdInput;
 };
+
 
 /** The root mutation type which contains root level fields which mutate data. */
 export type MutationUpdateExpenseArgs = {
   input: UpdateExpenseInput;
 };
 
+
 /** The root mutation type which contains root level fields which mutate data. */
-export type MutationUpdateExpenseByIdArgs = {
-  input: UpdateExpenseByIdInput;
+export type MutationUpdateExpenseByNodeIdArgs = {
+  input: UpdateExpenseByNodeIdInput;
 };
 
 /** An object with a globally unique `ID`. */
@@ -387,11 +369,11 @@ export type PageInfo = {
 /** The root query type which gives access points into the data universe. */
 export type Query = Node & {
   __typename?: 'Query';
-  /** Reads and enables pagination through a set of `Expense`. */
-  allExpenses?: Maybe<ExpensesConnection>;
-  /** Reads a single `Expense` using its globally unique `ID`. */
   expense?: Maybe<Expense>;
-  expenseById?: Maybe<Expense>;
+  /** Reads a single `Expense` using its globally unique `ID`. */
+  expenseByNodeId?: Maybe<Expense>;
+  /** Reads and enables pagination through a set of `Expense`. */
+  expenses?: Maybe<ExpensesConnection>;
   /** Fetches an object given its globally unique `ID`. */
   node?: Maybe<Node>;
   /** The root query type must be a `Node` to work well with Relay 1 mutations. This just resolves to `query`. */
@@ -403,8 +385,21 @@ export type Query = Node & {
   query: Query;
 };
 
+
 /** The root query type which gives access points into the data universe. */
-export type QueryAllExpensesArgs = {
+export type QueryExpenseArgs = {
+  id: Scalars['BigInt'];
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryExpenseByNodeIdArgs = {
+  nodeId: Scalars['ID'];
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryExpensesArgs = {
   after?: InputMaybe<Scalars['Cursor']>;
   before?: InputMaybe<Scalars['Cursor']>;
   condition?: InputMaybe<ExpenseCondition>;
@@ -415,15 +410,6 @@ export type QueryAllExpensesArgs = {
   orderBy?: InputMaybe<Array<ExpensesOrderBy>>;
 };
 
-/** The root query type which gives access points into the data universe. */
-export type QueryExpenseArgs = {
-  nodeId: Scalars['ID'];
-};
-
-/** The root query type which gives access points into the data universe. */
-export type QueryExpenseByIdArgs = {
-  id: Scalars['BigInt'];
-};
 
 /** The root query type which gives access points into the data universe. */
 export type QueryNodeArgs = {
@@ -508,16 +494,29 @@ export type StringFilter = {
   startsWithInsensitive?: InputMaybe<Scalars['String']>;
 };
 
-/** All input for the `updateExpenseById` mutation. */
-export type UpdateExpenseByIdInput = {
+/** The root subscription type: contains realtime events you can subscribe to with the `subscription` operation. */
+export type Subscription = {
+  __typename?: 'Subscription';
+  time?: Maybe<TimePayload>;
+};
+
+export type TimePayload = {
+  __typename?: 'TimePayload';
+  currentTimestamp?: Maybe<Scalars['String']>;
+  query?: Maybe<Query>;
+};
+
+/** All input for the `updateExpenseByNodeId` mutation. */
+export type UpdateExpenseByNodeIdInput = {
   /**
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
    */
   clientMutationId?: InputMaybe<Scalars['String']>;
+  /** The globally unique `ID` which will identify a single `Expense` to be updated. */
+  nodeId: Scalars['ID'];
   /** An object where the defined keys will be set on the `Expense` being updated. */
-  expensePatch: ExpensePatch;
-  id: Scalars['BigInt'];
+  patch: ExpensePatch;
 };
 
 /** All input for the `updateExpense` mutation. */
@@ -527,10 +526,9 @@ export type UpdateExpenseInput = {
    * payload verbatim. May be used to track mutations by the client.
    */
   clientMutationId?: InputMaybe<Scalars['String']>;
+  id: Scalars['BigInt'];
   /** An object where the defined keys will be set on the `Expense` being updated. */
-  expensePatch: ExpensePatch;
-  /** The globally unique `ID` which will identify a single `Expense` to be updated. */
-  nodeId: Scalars['ID'];
+  patch: ExpensePatch;
 };
 
 /** The output of our update `Expense` mutation. */
@@ -549,6 +547,7 @@ export type UpdateExpensePayload = {
   query?: Maybe<Query>;
 };
 
+
 /** The output of our update `Expense` mutation. */
 export type UpdateExpensePayloadExpenseEdgeArgs = {
   orderBy?: InputMaybe<Array<ExpensesOrderBy>>;
@@ -559,34 +558,13 @@ export type ExpensesQueryVariables = Exact<{
   to?: InputMaybe<Scalars['Datetime']>;
 }>;
 
-export type ExpensesQuery = {
-  __typename?: 'Query';
-  allExpenses?: {
-    __typename?: 'ExpensesConnection';
-    totalCount: number;
-    nodes: Array<{
-      __typename?: 'Expense';
-      id: any;
-      amount: number;
-      category: string;
-      method: string;
-      ownerName: string;
-      timestamp: string;
-      nodeId: string;
-    }>;
-    pageInfo: {
-      __typename?: 'PageInfo';
-      endCursor?: any | null;
-      hasNextPage: boolean;
-      hasPreviousPage: boolean;
-      startCursor?: any | null;
-    };
-  } | null;
-};
+
+export type ExpensesQuery = { __typename?: 'Query', expenses?: { __typename?: 'ExpensesConnection', totalCount: number, nodes: Array<{ __typename?: 'Expense', id: any, amount: number, category: string, method: string, ownerName: string, timestamp: string, nodeId: string }>, pageInfo: { __typename?: 'PageInfo', endCursor?: any | null, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: any | null } } | null };
+
 
 export const ExpensesDocument = `
     query Expenses($from: Datetime = "now()", $to: Datetime = "now()") {
-  allExpenses(
+  expenses(
     filter: {timestamp: {greaterThanOrEqualTo: $from, lessThanOrEqualTo: $to}}
   ) {
     nodes {
@@ -608,12 +586,15 @@ export const ExpensesDocument = `
   }
 }
     `;
-export const useExpensesQuery = <TData = ExpensesQuery, TError = unknown>(
-  variables?: ExpensesQueryVariables,
-  options?: UseQueryOptions<ExpensesQuery, TError, TData>
-) =>
-  useQuery<ExpensesQuery, TError, TData>(
-    variables === undefined ? ['Expenses'] : ['Expenses', variables],
-    fetcher<ExpensesQuery, ExpensesQueryVariables>(ExpensesDocument, variables),
-    options
-  );
+export const useExpensesQuery = <
+      TData = ExpensesQuery,
+      TError = unknown
+    >(
+      variables?: ExpensesQueryVariables,
+      options?: UseQueryOptions<ExpensesQuery, TError, TData>
+    ) =>
+    useQuery<ExpensesQuery, TError, TData>(
+      variables === undefined ? ['Expenses'] : ['Expenses', variables],
+      authedFetcher<ExpensesQuery, ExpensesQueryVariables>(ExpensesDocument).bind(null, variables),
+      options
+    );

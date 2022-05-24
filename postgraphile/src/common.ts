@@ -8,9 +8,14 @@ import {
 import PgPubsub from '@graphile/pg-pubsub';
 import PgSimplifyInflectorPlugin from '@graphile-contrib/pg-simplify-inflector';
 import PostGraphileConnectionFilterPlugin = require('postgraphile-plugin-connection-filter');
+import { makeAllowedOriginTweak } from './cors';
 
 // @ts-ignore `@graphile/pg-pubsub` pulls types from npm `postgraphile` module rather than local version.
-const pluginHook = makePluginHook([PgPubsub]);
+const plugins = [PgPubsub];
+if (process.env.NODE_ENV !== 'development') {
+  plugins.push(makeAllowedOriginTweak(process.env.ALLOWED_CORS));
+}
+const pluginHook = makePluginHook(plugins);
 
 const MySubscriptionPlugin = makeExtendSchemaPlugin((build) => {
   return {
