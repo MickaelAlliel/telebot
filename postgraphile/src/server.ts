@@ -1,9 +1,10 @@
 #!/usr/bin/env -S npx ts-node
+import 'dotenv/config';
 import express = require('express');
 import { postgraphile } from 'postgraphile';
 import { getDatabaseConnectionConfig, schemas, options, port } from './common';
 import { expressjwt } from 'express-jwt';
-import { expressJwtSecret } from 'jwks-rsa';
+import { expressJwtSecret, GetVerificationKey } from 'jwks-rsa';
 
 const middleware = postgraphile(
   getDatabaseConnectionConfig(),
@@ -11,19 +12,21 @@ const middleware = postgraphile(
   options
 );
 
+const issuer = process.env.ISSUER;
 const checkJwt = expressjwt({
   secret: expressJwtSecret({
     cache: true,
     rateLimit: true,
     jwksRequestsPerMinute: 5,
-    jwksUri: `https://YOUR_DOMAIN/.well-known/jwks.json`,
-  }),
-  audience: 'YOUR_API_IDENTIFIER',
-  issuer: `https://YOUR_DOMAIN/`,
+    jwksUri: process.env.JWKS_URI,
+  }) as GetVerificationKey,
+  audience: process.env.AUDIENCE,
+  issuer,
   algorithms: ['RS256'],
 });
 
 const app = express();
+app.use(checkJwt);
 app.use(middleware);
 
 const server = app.listen(port, () => {

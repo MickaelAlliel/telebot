@@ -32,15 +32,15 @@ export const useFilters: UseFiltersFn = (timeframe, data) => {
   const [endDate, setEndDate] = useState<string | null>(timeframe[1]);
 
   const categoriesOptions = useMemo(() => {
-    return uniq(data?.allExpenses?.nodes.map((exp) => exp.category));
+    return uniq(data?.expenses?.nodes.map((exp) => exp.category));
   }, [data]);
 
   const paymentMethodsOptions = useMemo(() => {
-    return uniq(data?.allExpenses?.nodes.map((exp) => exp.method));
+    return uniq(data?.expenses?.nodes.map((exp) => exp.method));
   }, [data]);
 
   const ownersOptions = useMemo(() => {
-    return uniq(data?.allExpenses?.nodes.map((exp) => exp.ownerName));
+    return uniq(data?.expenses?.nodes.map((exp) => exp.ownerName));
   }, [data]);
 
   return {

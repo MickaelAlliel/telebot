@@ -21,10 +21,13 @@ generates:
         Datetime: string
         uuid: string
       fetcher:
-        endpoint: 'import.meta.env.VITE_GRAPHQL_ENDPOINT'
-        fetchParams:
-          headers:
-            Content-Type: 'application/json'
+        func: '../services/AuthenticatedFetchProvider#authedFetcher'
+        isReactHook: true
+        # endpoint: 'import.meta.env.VITE_GRAPHQL_ENDPOINT'
+        # fetchParams:
+        #   credentials: 'include'
+        #   headers:
+        #     Content-Type: 'application/json'
       hooks:
         afterAllFileWrite:
           - prettier --write
